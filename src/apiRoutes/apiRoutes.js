@@ -9,6 +9,12 @@ const apiAllRoutes = {
     addTask :"/api/v1/tasks",
     updateTask :"/api/v1/tasks/{id}",
     deleteTask :"/api/v1/tasks/{id}",
+  },
+  user :{
+    getAllUsers :"/api/v1/users",
+    addUser :"/api/v1/users",
+    updateUser :"/api/v1/users/{id}",
+    deleteUser :"/api/v1/users/{id}",
   }
 }
 

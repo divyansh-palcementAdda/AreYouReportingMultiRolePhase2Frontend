@@ -113,7 +113,7 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-xs bg-white/5">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4">
+      <div className={`bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto m-4 ${loading ? 'pointer-events-none' : ''}`}>
         <div className="flex justify-between items-center p-6 border-b">
           <h2 className="text-xl font-semibold text-gray-800">
             {taskToEdit ? "Edit Task" : "Add New Task"}
@@ -139,7 +139,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 value={formData.title}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                disabled={loading}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter task title"
               />
             </div>
@@ -153,7 +154,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 value={formData.priority}
                 onChange={handleInputChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                disabled={loading}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {priorityOptions.map((option) => (
                   <option key={option} value={option}>
@@ -173,7 +175,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
               value={formData.description}
               onChange={handleInputChange}
               rows="3"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              disabled={loading}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter task description"
             />
           </div>
@@ -189,7 +192,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 name="startDate"
                 value={formData.startDate}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                disabled={loading}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -202,7 +206,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 name="dueDate"
                 value={formData.dueDate}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                disabled={loading}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
               />
             </div>
           </div>
@@ -220,7 +225,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                       type="checkbox"
                       checked={formData.assignedDepartmentIds.includes(dept.id)}
                       onChange={() => handleMultiSelect("assignedDepartmentIds", dept.id)}
-                      className="mr-2 h-4 w-4 text-green-600 focus:ring-green-500"
+                      disabled={loading}
+                      className="mr-2 h-4 w-4 text-green-600 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                     <span className="text-sm text-gray-700">{dept.name}</span>
                   </label>
@@ -244,7 +250,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                       type="checkbox"
                       checked={formData.assignedSubDepartmentIds.includes(subDept.id)}
                       onChange={() => handleMultiSelect("assignedSubDepartmentIds", subDept.id)}
-                      className="mr-2 h-4 w-4 text-green-600 focus:ring-green-500"
+                      disabled={loading}
+                      className="mr-2 h-4 w-4 text-green-600 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                     <span className="text-sm text-gray-700">{subDept.name}</span>
                   </label>
@@ -268,7 +275,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                       type="checkbox"
                       checked={formData.assigneeIds.includes(assignee.id)}
                       onChange={() => handleMultiSelect("assigneeIds", assignee.id)}
-                      className="mr-2 h-4 w-4 text-green-600 focus:ring-green-500"
+                      disabled={loading}
+                      className="mr-2 h-4 w-4 text-green-600 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                     <span className="text-sm text-gray-700">{assignee.name || assignee.email}</span>
                   </label>
@@ -288,7 +296,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
               name="templateId"
               value={formData.templateId}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              disabled={loading}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <option value="">Select a template</option>
               {templates.map((template) => (
@@ -312,7 +321,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 onChange={handleInputChange}
                 step="0.1"
                 min="0"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                disabled={loading}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter target count"
               />
             </div>
@@ -329,7 +339,8 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 step="0.1"
                 min="0"
                 max="100"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                disabled={loading}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter target percentage"
               />
             </div>
@@ -340,16 +351,25 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              disabled={loading}
+              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             >
-              {loading ? "Saving..." : taskToEdit ? "Update Task" : "Add Task"}
+              {loading ? (
+                <>
+                  <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Saving...
+                </>
+              ) : taskToEdit ? "Update Task" : "Add Task"}
             </button>
           </div>
         </form>

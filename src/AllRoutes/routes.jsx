@@ -3,6 +3,7 @@ import Login from "../pages/login"
 import AdminDashboard from "../pages/Dashboard/adminDashboard"
 import AllTask from "../pages/Main/allTask"
 import MainLayout from "../layouts/mainLayout"
+import AllUsers from "../pages/Main/allUsers"
 
 export default function AppRoutes() {
     return (
@@ -11,6 +12,7 @@ export default function AppRoutes() {
                 <Route path="/" element={<Login />} />
                 <Route path="/admin-dashboard" element={<MainLayout><AdminDashboard /></MainLayout>} />
                 <Route path="/all-task" element={<MainLayout><AllTask /></MainLayout>} />
+                <Route path="/all-users" element={<MainLayout><AllUsers /></MainLayout>} />
             </Routes>
         </BrowserRouter>
     )
