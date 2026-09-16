@@ -9,6 +9,8 @@ const AllTask = () => {
   const [loading, setLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [taskToEdit, setTaskToEdit] = useState(null)
+  const [pagination, setPagination] = useState(null)
+  const [currentPage, setCurrentPage] = useState(0)
 
   const columns = [
     { key: "id", label: "ID" },
@@ -18,18 +20,25 @@ const AllTask = () => {
     { key: "assignee", label: "Assignee" },
   ]
 
-  const fetchTasks = async () => {
+  const fetchTasks = async (page = 0) => {
     setLoading(true)
     try {
       const params = {
         pageable: {
-          page: 0,
+          page: page,
           size: 10,
           sort: ["createdAt,desc"]
         }
       }
       const response = await getAllTasks(params)
-      setTasks(response.data || response.content || [])
+      setTasks(response.data?.content || response.content || [])
+      setPagination(response.data || {
+        pageNumber: 0,
+        pageSize: 10,
+        totalElements: 0,
+        totalPages: 0,
+        last: true
+      })
     } catch (error) {
       console.error("Error fetching tasks:", error)
     } finally {
@@ -38,7 +47,7 @@ const AllTask = () => {
   }
 
   useEffect(() => {
-    fetchTasks()
+    fetchTasks(0)
   }, [])
 
   const handleAddTask = () => {
@@ -57,7 +66,12 @@ const AllTask = () => {
   }
 
   const handleSuccess = () => {
-    fetchTasks()
+    fetchTasks(currentPage)
+  }
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+    fetchTasks(page)
   }
 
   return (
@@ -76,7 +90,13 @@ const AllTask = () => {
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <Table columns={columns} data={tasks} onEdit={handleEditTask} />
+        <Table 
+          columns={columns} 
+          data={tasks} 
+          onEdit={handleEditTask} 
+          pagination={pagination}
+          onPageChange={handlePageChange}
+        />
       )}
 
       <AddAndEditTaskModal

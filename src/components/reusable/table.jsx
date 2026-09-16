@@ -5,6 +5,8 @@ const ReusableTable = ({
   data = [],
   onEdit,
   emptyMessage = "No data available",
+  pagination = null,
+  onPageChange = null,
 }) => {
   const [orderedColumns, setOrderedColumns] = useState(columns);
   const [draggedColumn, setDraggedColumn] = useState(null);
@@ -114,6 +116,36 @@ const ReusableTable = ({
 
         </table>
       </div>
+
+      {/* Pagination */}
+      {pagination && (
+        <div className="flex items-center justify-between p-4 border-t border-gray-200">
+          <div className="text-sm text-gray-600">
+            Showing {pagination.totalElements > 0 ? (pagination.pageNumber * pagination.pageSize) + 1 : 0} to{" "}
+            {Math.min((pagination.pageNumber + 1) * pagination.pageSize, pagination.totalElements)} of{" "}
+            {pagination.totalElements} entries
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => onPageChange(pagination.pageNumber - 1)}
+              disabled={pagination.pageNumber === 0}
+              className="px-3 py-1 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Previous
+            </button>
+            <span className="text-sm text-gray-600">
+              Page {pagination.pageNumber + 1} of {pagination.totalPages}
+            </span>
+            <button
+              onClick={() => onPageChange(pagination.pageNumber + 1)}
+              disabled={pagination.last}
+              className="px-3 py-1 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
