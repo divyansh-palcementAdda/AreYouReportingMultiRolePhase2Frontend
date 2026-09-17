@@ -15,7 +15,14 @@ const apiAllRoutes = {
     addUser :"/api/v1/users",
     updateUser :"/api/v1/users/{id}",
     deleteUser :"/api/v1/users/{id}",
-  }
+  },
+  department:{
+    getAllDepartments :"/api/v1/departments",
+    addDepartment :"/api/v1/departments",
+    updateDepartment :"/api/v1/departments/{id}",
+    deleteDepartment :"/api/v1/departments/{id}",
+  },
+
 }
 
 export default apiAllRoutes;

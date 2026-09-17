@@ -8,7 +8,6 @@ const DeleteModal = ({ isOpen, onClose, onDelete, title = "Delete Item", message
     setLoading(true);
     try {
       await onDelete();
-      toast.success("Deleted successfully!");
       onClose();
     } catch (error) {
       console.error("Error deleting:", error);
