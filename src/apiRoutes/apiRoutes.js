@@ -33,6 +33,11 @@ const apiAllRoutes = {
     getSubDepartments:"/api/v1/dropdowns/sub-departments",
     getTaskTemplates:"/api/v1/dropdowns/task-templates"
   },
+  rolesAndPermissions:{
+    getAllRoles:"/api/v1/roles",
+    getAllPermissions:"/api/v1/permissions",
+    getpermissionByRoleId:"/api/v1/permissions/get-permissions-by-role"
+  }
 
 }
 
