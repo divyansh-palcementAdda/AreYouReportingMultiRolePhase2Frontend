@@ -49,3 +49,62 @@ export const getPermissionsByRole = async (roleId) => {
   }
 };
 
+// ------------------------------------
+// Create Role Service
+// ------------------------------------
+export const createRole = async (roleData) => {
+  try {
+    const response = await axiosInstance.post(
+      apiAllRoutes.rolesAndPermissions.createRole,
+      roleData
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ------------------------------------
+// Update Role Service
+// ------------------------------------
+export const updateRole = async (id, roleData) => {
+  try {
+    const response = await axiosInstance.put(
+      apiAllRoutes.rolesAndPermissions.updateRole.replace("{id}", id),
+      roleData
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ------------------------------------
+// Delete Role Service
+// ------------------------------------
+export const deleteRole = async (id) => {
+  try {
+    const response = await axiosInstance.delete(
+      apiAllRoutes.rolesAndPermissions.deleteRole.replace("{id}", id)
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ------------------------------------
+// Update Role Permissions Service
+// ------------------------------------
+export const updateRolePermissions = async (roleId, permissionIds) => {
+  try {
+    const response = await axiosInstance.put(
+      apiAllRoutes.rolesAndPermissions.updateRolePermissions.replace("{id}", roleId),
+      { permissionIds }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+

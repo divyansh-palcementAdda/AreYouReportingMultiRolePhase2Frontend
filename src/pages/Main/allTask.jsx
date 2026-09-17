@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
 import Table from "../../components/reusable/table"
-import { getAllTasks } from "../../Services/taskService"
+import { getAllTasks, deleteTask } from "../../Services/taskService"
 import AddAndEditTaskModal from "../../components/Models/Tasks/addAndeditTask"
+import DeleteModal from "../../components/reusable/deleteModel"
 import { Plus } from "lucide-react"
 
 const AllTask = () => {
@@ -11,9 +12,11 @@ const AllTask = () => {
   const [taskToEdit, setTaskToEdit] = useState(null)
   const [pagination, setPagination] = useState(null)
   const [currentPage, setCurrentPage] = useState(0)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [taskToDelete, setTaskToDelete] = useState(null)
 
   const columns = [
-    { key: "id", label: "ID" },
+    { key: "serialNo", label: "S.No" },
     { key: "title", label: "Title" },
     { key: "status", label: "Status" },
     { key: "priority", label: "Priority" },
@@ -74,6 +77,22 @@ const AllTask = () => {
     fetchTasks(page)
   }
 
+  const handleDeleteClick = (task) => {
+    setTaskToDelete(task)
+    setIsDeleteModalOpen(true)
+  }
+
+  const handleDeleteModalClose = () => {
+    setIsDeleteModalOpen(false)
+    setTaskToDelete(null)
+  }
+
+  const handleDeleteTask = async () => {
+    if (taskToDelete?.id) {
+      await deleteTask(taskToDelete.id)
+    }
+  }
+
   return (
     <div className="mt-2">
       <div className="flex justify-between items-center mb-4">
@@ -92,8 +111,12 @@ const AllTask = () => {
       ) : (
         <Table 
           columns={columns} 
-          data={tasks} 
-          onEdit={handleEditTask} 
+          data={tasks.map((task, index) => ({
+            ...task,
+            serialNo: currentPage * 10 + index + 1
+          }))} 
+          onEdit={handleEditTask}
+          onDelete={handleDeleteClick}
           pagination={pagination}
           onPageChange={handlePageChange}
         />
@@ -104,6 +127,14 @@ const AllTask = () => {
         onClose={handleModalClose}
         taskToEdit={taskToEdit}
         onSuccess={handleSuccess}
+      />
+
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={handleDeleteModalClose}
+        onDelete={handleDeleteTask}
+        title="Delete Task"
+        message="Are you sure you want to delete this task? This action cannot be undone."
       />
     </div>
   )

@@ -69,28 +69,28 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
           pageable: { page: 0, size: 100, sort: ["name"] }
         };
         const departmentsResponse = await getDepartmentsDropdown(departmentsParams);
-        setDepartments(departmentsResponse?.content || departmentsResponse || []);
+        setDepartments(departmentsResponse?.data?.content || departmentsResponse?.content || []);
 
         // Fetch sub-departments
         const subDepartmentsParams = {
           pageable: { page: 0, size: 100, sort: ["name"] }
         };
         const subDepartmentsResponse = await getSubDepartmentsDropdown(subDepartmentsParams);
-        setSubDepartments(subDepartmentsResponse?.content || subDepartmentsResponse || []);
+        setSubDepartments(subDepartmentsResponse?.data?.content || subDepartmentsResponse?.content || []);
 
         // Fetch eligible assignees
         const assigneesParams = {
           pageable: { page: 0, size: 100, sort: ["name"] }
         };
         const assigneesResponse = await getEligibleAssignees(assigneesParams);
-        setAssignees(assigneesResponse?.content || assigneesResponse || []);
+        setAssignees(assigneesResponse?.data?.content || assigneesResponse?.content || []);
 
         // Fetch task templates
         const templatesParams = {
           pageable: { page: 0, size: 100, sort: ["name"] }
         };
         const templatesResponse = await getTaskTemplatesDropdown(templatesParams);
-        setTemplates(templatesResponse?.content || templatesResponse || []);
+        setTemplates(templatesResponse?.data?.content || templatesResponse?.content || []);
       } catch (error) {
         console.error("Error fetching dropdown data:", error);
         toast.error("Failed to load dropdown data");
@@ -343,7 +343,7 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <option value="">Select a template</option>
-              {templates.map((template) => (
+              {Array.isArray(templates) && templates.map((template) => (
                 <option key={template.id} value={template.id}>
                   {template.name}
                 </option>

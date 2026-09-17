@@ -36,7 +36,11 @@ const apiAllRoutes = {
   rolesAndPermissions:{
     getAllRoles:"/api/v1/roles",
     getAllPermissions:"/api/v1/permissions",
-    getpermissionByRoleId:"/api/v1/permissions/get-permissions-by-role"
+    getpermissionByRoleId:"/api/v1/permissions/get-permissions-by-role",
+    createRole:"/api/v1/roles",
+    updateRole:"/api/v1/roles/{id}",
+    deleteRole:"/api/v1/roles/{id}",
+    updateRolePermissions:"/api/v1/roles/{id}/permissions"
   }
 
 }

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Edit, Trash2, Plus } from 'lucide-react'
-import { getAllRoles, getAllPermissions, getPermissionsByRole } from '../../Services/roleandpermissionService'
+import { toast } from 'react-toastify'
+import { getAllRoles, getAllPermissions, getPermissionsByRole, deleteRole, updateRolePermissions } from '../../Services/roleandpermissionService'
+import RoleAddAndEditModal from '../../components/Models/RoleandPermissions/roleAddandEdit'
+import DeleteModal from '../../components/reusable/deleteModel.jsx'
 
 const rolesAndPermissions = () => {
   const [roles, setRoles] = useState([])
@@ -8,6 +11,13 @@ const rolesAndPermissions = () => {
   const [selectedRole, setSelectedRole] = useState(null)
   const [rolePermissions, setRolePermissions] = useState([])
   const [loading, setLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [roleToEdit, setRoleToEdit] = useState(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [roleToDelete, setRoleToDelete] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectAll, setSelectAll] = useState(false)
+  const [selectedPermissions, setSelectedPermissions] = useState([])
 
   useEffect(() => {
     fetchRolesAndPermissions()
@@ -31,6 +41,9 @@ const rolesAndPermissions = () => {
 
   const handleRoleClick = async (role) => {
     setSelectedRole(role)
+    setSelectedPermissions([])
+    setSelectAll(false)
+    setSearchQuery('')
     try {
       const permissionsData = await getPermissionsByRole(role.id)
       console.log('Role permissions data:', permissionsData)
@@ -43,44 +56,121 @@ const rolesAndPermissions = () => {
 
   const handleEditRole = (e, role) => {
     e.stopPropagation()
-    console.log('Edit role:', role)
-    // TODO: Add edit modal logic
+    setRoleToEdit(role)
+    setIsModalOpen(true)
   }
 
   const handleDeleteRole = (e, role) => {
     e.stopPropagation()
-    console.log('Delete role:', role)
-    // TODO: Add delete modal logic
+    setRoleToDelete(role)
+    setIsDeleteModalOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (roleToDelete) {
+      try {
+        await deleteRole(roleToDelete.id)
+        fetchRolesAndPermissions()
+        if (selectedRole?.id === roleToDelete.id) {
+          setSelectedRole(null)
+          setRolePermissions([])
+        }
+      } catch (error) {
+        console.error('Error deleting role:', error)
+        throw error
+      }
+    }
   }
 
   const handleAddRole = () => {
-    console.log('Add new role')
-    // TODO: Add role modal logic
+    setRoleToEdit(null)
+    setIsModalOpen(true)
+  }
+
+  const handleModalClose = () => {
+    setIsModalOpen(false)
+    setRoleToEdit(null)
+  }
+
+  const handleModalSuccess = () => {
+    fetchRolesAndPermissions()
   }
 
   const isPermissionChecked = (permission) => {
+    // Check if permission is in selectedPermissions
+    if (selectedPermissions.includes(permission.id)) {
+      return true
+    }
+    
+    // Also check if it was already granted from rolePermissions
     if (!rolePermissions || !Array.isArray(rolePermissions)) {
-      console.log('No role permissions or not array')
       return false
     }
     
-    console.log('Checking permission:', permission.authority)
-    console.log('Role permissions:', rolePermissions)
-    
-    // Flatten the role permissions structure to find if permission is granted
     for (const resourceGroup of rolePermissions) {
       if (resourceGroup.permissions && Array.isArray(resourceGroup.permissions)) {
         const foundPermission = resourceGroup.permissions.find(
           rp => rp.authority === permission.authority && rp.granted === true
         )
         if (foundPermission) {
-          console.log('Found granted permission:', foundPermission)
           return true
         }
       }
     }
-    console.log('Permission not found or not granted')
     return false
+  }
+
+  const filteredPermissions = permissions.filter(permission => {
+    const query = searchQuery.toLowerCase()
+    return (
+      permission.authority?.toLowerCase().includes(query) ||
+      permission.description?.toLowerCase().includes(query)
+    )
+  })
+
+  const handleSelectAll = () => {
+    const newSelectAll = !selectAll
+    setSelectAll(newSelectAll)
+    
+    if (newSelectAll) {
+      // Select all permissions
+      setSelectedPermissions(permissions.map(p => p.id))
+    } else {
+      // Deselect all
+      setSelectedPermissions([])
+    }
+  }
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value)
+  }
+
+  const handlePermissionToggle = (permission) => {
+    const permissionId = permission.id
+    setSelectedPermissions(prev => {
+      if (prev.includes(permissionId)) {
+        return prev.filter(id => id !== permissionId)
+      } else {
+        return [...prev, permissionId]
+      }
+    })
+  }
+
+  const handleSavePermissions = async () => {
+    if (!selectedRole) return
+    
+    try {
+      await updateRolePermissions(selectedRole.id, selectedPermissions)
+      toast.success('Permissions updated successfully')
+      // Refresh the role permissions
+      const permissionsData = await getPermissionsByRole(selectedRole.id)
+      setRolePermissions(permissionsData)
+      setSelectedPermissions([])
+      setSelectAll(false)
+    } catch (error) {
+      console.error('Error updating permissions:', error)
+      toast.error('Failed to update permissions')
+    }
   }
 
   if (loading) {
@@ -98,7 +188,7 @@ const rolesAndPermissions = () => {
       <div className="flex gap-6">
         {/* Roles Section - Left Side */}
         <div className="w-1/3">
-          <div className="bg-white shadow-md rounded-xl overflow-hidden">
+          <div className="bg-white shadow-md rounded-xl overflow-hidden sticky top-6">
             <div className="bg-gradient-to-r from-green-800 to-green-700 p-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-white">All Roles</h2>
@@ -166,15 +256,58 @@ const rolesAndPermissions = () => {
         <div className="w-2/3">
           <div className="bg-white shadow-md rounded-xl overflow-hidden">
             <div className="bg-gradient-to-r from-green-800 to-green-700 p-4">
-              <h2 className="text-lg font-semibold text-white">
-                {selectedRole ? `Permissions for ${selectedRole.name || selectedRole.roleName}` : 'All Permissions'}
-              </h2>
+              <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-white">
+                  {selectedRole ? `Permissions for ${selectedRole.name || selectedRole.roleName}` : 'All Permissions'}
+                </h2>
+                {selectedRole && (
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Search permissions..."
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        className="pl-8 pr-4 py-1.5 text-sm rounded-lg border-0 focus:outline-none w-48 bg-white text-gray-700 placeholder-gray-400"
+                      />
+                      <svg
+                        className="absolute left-2.5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        />
+                      </svg>
+                    </div>
+                    <label className="flex items-center gap-2 text-white text-sm cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={selectAll}
+                        onChange={handleSelectAll}
+                        className="w-4 h-4 rounded focus:ring-green-300 accent-green-600"
+                      />
+                      Select All
+                    </label>
+                    <button
+                      onClick={handleSavePermissions}
+                      className="px-3 py-1.5 bg-white text-green-700 rounded-lg hover:bg-green-50 transition-colors text-sm font-medium"
+                    >
+                      Save
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="p-4">
+            <div className="p-4 overflow-y-auto max-h-[calc(100vh-200px)] scrollbar-hide">
               {selectedRole ? (
                 <div className="space-y-3">
-                  {permissions.length > 0 ? (
-                    permissions.map((permission) => (
+                  {filteredPermissions.length > 0 ? (
+                    filteredPermissions.map((permission) => (
                       <div
                         key={permission.id}
                         className="flex items-start p-3 rounded-lg bg-gray-50 hover:bg-green-50 transition-colors"
@@ -182,7 +315,7 @@ const rolesAndPermissions = () => {
                         <input
                           type="checkbox"
                           checked={isPermissionChecked(permission)}
-                          readOnly
+                          onChange={() => handlePermissionToggle(permission)}
                           className="w-5 h-5 text-green-600 rounded focus:ring-green-500 focus:ring-2 cursor-pointer accent-green-600 mt-1"
                         />
                         <div className="ml-3 flex flex-col">
@@ -199,7 +332,7 @@ const rolesAndPermissions = () => {
                     ))
                   ) : (
                     <div className="text-center text-gray-500 py-8">
-                      No permissions available
+                      {searchQuery ? 'No permissions match your search' : 'No permissions available'}
                     </div>
                   )}
                 </div>
@@ -212,6 +345,26 @@ const rolesAndPermissions = () => {
           </div>
         </div>
       </div>
+
+      {/* Role Add/Edit Modal */}
+      <RoleAddAndEditModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        roleToEdit={roleToEdit}
+        onSuccess={handleModalSuccess}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false)
+          setRoleToDelete(null)
+        }}
+        onDelete={handleConfirmDelete}
+        title="Delete Role"
+        message={`Are you sure you want to delete the role "${roleToDelete?.name || roleToDelete?.roleName}"? This action cannot be undone.`}
+      />
     </div>
   )
 }
