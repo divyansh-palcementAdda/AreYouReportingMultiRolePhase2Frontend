@@ -67,7 +67,8 @@ export const deleteDepartment = async (id) => {
   }
 };
 
-// ------------------------------------
+// ----------------sub department --------------------
+
 // Get Sub-departments by Department ID Service
 // Retrieves all sub-departments belonging to a department
 // Path param: deptId (string, UUID)
@@ -116,6 +117,20 @@ export const addSubDepartment = async (deptId, subDepartmentData) => {
 export const updateSubDepartment = async (subDeptId, subDepartmentData) => {
   try {
     const response = await axiosInstance.put(apiAllRoutes.department.updateSubDepartment.replace("{subDeptId}", subDeptId), subDepartmentData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ------------------------------------
+// Deactivate Sub-department Service
+// Deactivates a sub-department by ID
+// Path param: subDeptId (string, UUID)
+// ------------------------------------
+export const deactivateSubDepartment = async (subDeptId) => {
+  try {
+    const response = await axiosInstance.delete(apiAllRoutes.department.deleteSubdepartment.replace("{subDeptId}", subDeptId));
     return response.data;
   } catch (error) {
     throw error;
