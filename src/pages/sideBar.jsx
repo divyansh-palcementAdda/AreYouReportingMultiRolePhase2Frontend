@@ -11,8 +11,8 @@ const SideBar = ({ isOpen, setIsOpen }) => {
     { name: 'Dashboard', icon: LayoutDashboard, route: '/admin-dashboard' },
     { name: 'All Task', icon: ClipboardList, route: '/all-task' },
     { name: 'My Task', icon: CheckCircle },
-    { name: 'All User', icon: Users ,route: '/all-users'},
-    { name: 'All Department / Sub Department', icon: Building },
+    { name: 'All User', icon: Users, route: '/all-users' },
+    { name: 'All Department / Sub Department', icon: Building, route: '/all-departments' },
     { name: 'Pending Approval', icon: Clock },
     { name: 'All Work', icon: Briefcase },
     { name: 'User Task Analytics', icon: BarChart3 },
@@ -45,9 +45,8 @@ const SideBar = ({ isOpen, setIsOpen }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-full bg-gray-50 shadow-lg transition-transform duration-300 z-40 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:translate-x-0 w-64`}
+        className={`fixed left-0 top-0 h-full bg-gray-50 shadow-lg transition-transform duration-300 z-40 ${isOpen ? 'translate-x-0' : '-translate-x-full'
+          } lg:translate-x-0 w-64`}
       >
         {/* Logo */}
         <div className=" border-b border-gray-200 mt-1">
@@ -97,11 +96,10 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                           <li key={subIndex}>
                             <button
                               onClick={() => setActiveItem(`${index}-${subIndex}`)}
-                              className={`block w-full text-left p-2 rounded-lg transition-colors ${
-                                activeItem === `${index}-${subIndex}`
+                              className={`block w-full text-left p-2 rounded-lg transition-colors ${activeItem === `${index}-${subIndex}`
                                   ? 'bg-gradient-to-b from-white/0 to-green-800/10 text-[#2b7818] font-medium'
                                   : 'text-gray-600 hover:text-gray-900'
-                              }`}
+                                }`}
                             >
                               {subItem.name}
                             </button>
@@ -118,11 +116,10 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                         navigate(item.route);
                       }
                     }}
-                    className={`flex items-center gap-3 p-3 rounded-lg transition-colors w-full ${
-                      activeItem === index
+                    className={`flex items-center gap-3 p-3 rounded-lg transition-colors w-full ${activeItem === index
                         ? 'bg-gradient-to-b from-white/0 to-green-900/10 text-[#2b7818]'
                         : 'hover:bg-gray-100 text-gray-700'
-                    }`}
+                      }`}
                   >
                     <item.icon size={20} />
                     <span className="font-medium">{item.name}</span>

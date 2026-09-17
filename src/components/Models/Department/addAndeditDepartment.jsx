@@ -59,7 +59,14 @@ const AddAndEditDepartmentModal = ({ isOpen, onClose, departmentToEdit, onSucces
       onClose();
     } catch (error) {
       console.error("Error saving department:", error);
-      toast.error(error.response?.data?.message || "Failed to save department");
+      if (error.response?.status === 403) {
+        toast.error(error.response?.data?.message || "You do not have permission to modify this department.");
+      } else if (error.response?.status === 404) {
+        toast.error(error.response?.data?.message || "Department not found. The list has been refreshed.");
+        if (onSuccess) onSuccess();
+      } else {
+        toast.error(error.response?.data?.message || "Failed to save department");
+      }
     } finally {
       setLoading(false);
     }

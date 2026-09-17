@@ -74,7 +74,14 @@ const AllDepartments = () => {
         toast.success("Department deleted successfully!")
         handleSuccess()
       } catch (error) {
-        throw error
+        if (error.response?.status === 403) {
+          toast.error(error.response?.data?.message || "You do not have permission to delete this department.");
+        } else if (error.response?.status === 404) {
+          toast.error("Department not found. The list has been refreshed.");
+          handleSuccess();
+        } else {
+          toast.error(error.response?.data?.message || "Failed to delete department");
+        }
       }
     }
   }
