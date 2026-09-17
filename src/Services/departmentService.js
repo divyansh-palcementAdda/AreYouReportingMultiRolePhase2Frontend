@@ -67,4 +67,58 @@ export const deleteDepartment = async (id) => {
   }
 };
 
+// ------------------------------------
+// Get Sub-departments by Department ID Service
+// Retrieves all sub-departments belonging to a department
+// Path param: deptId (string, UUID)
+// Query param: activeOnly (boolean, default: empty)
+// ------------------------------------
+export const getSubDepartmentsByDepartmentId = async (deptId, params) => {
+  try {
+    const response = await axiosInstance.get(apiAllRoutes.department.getAllSubDepartment.replace("{deptId}", deptId), {
+      params: params
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ------------------------------------
+// Add Sub-department Service
+// Creates a child sub-department under a parent department
+// Path param: deptId (string, UUID)
+// Request body:
+// - name: string (required)
+// - code: string (required)
+// - description: string (required)
+// - isActive: boolean (default: true)
+// ------------------------------------
+export const addSubDepartment = async (deptId, subDepartmentData) => {
+  try {
+    const response = await axiosInstance.post(apiAllRoutes.department.addSubDepartment.replace("{deptId}", deptId), subDepartmentData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ------------------------------------
+// Update Sub-department Service
+// Updates sub-department details by ID
+// Path param: subDeptId (string, UUID)
+// Request body:
+// - name: string
+// - code: string
+// - description: string
+// - isActive: boolean
+// ------------------------------------
+export const updateSubDepartment = async (subDeptId, subDepartmentData) => {
+  try {
+    const response = await axiosInstance.put(apiAllRoutes.department.updateSubDepartment.replace("{subDeptId}", subDeptId), subDepartmentData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 

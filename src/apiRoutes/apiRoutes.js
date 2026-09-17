@@ -21,6 +21,17 @@ const apiAllRoutes = {
     addDepartment :"/api/v1/departments",
     updateDepartment :"/api/v1/departments/{id}",
     deleteDepartment :"/api/v1/departments/{id}",
+    //sub department 
+    getAllSubDepartment:"/api/v1/departments/{deptId}/sub-departments",
+    addSubDepartment:"/api/v1/departments/{deptId}/sub-departments",
+    updateSubDepartment:"/api/v1/departments/sub-departments/{subDeptId}",
+    deleteSubdepartment :"/api/v1/departments/sub-departments/{subDeptId}"
+  },
+  dropdown:{
+    getEligibleAssignees:"/api/v1/dropdowns/users/eligible-assignees",
+    getDepartments:"/api/v1/dropdowns/departments",
+    getSubDepartments:"/api/v1/dropdowns/sub-departments",
+    getTaskTemplates:"/api/v1/dropdowns/task-templates"
   },
 
 }

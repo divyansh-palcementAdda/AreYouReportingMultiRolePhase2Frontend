@@ -52,7 +52,7 @@ const ReusableTable = ({
                   onDragStart={() => handleDragStart(index)}
                   onDragOver={handleDragOver}
                   onDrop={() => handleDrop(index)}
-                  className="p-4 border-b border-gray-200 bg-gradient-to-b from-white/0 to-green-800/10 cursor-grab select-none text-gray-700"
+                  className="p-4 border-b border-gray-200 bg-gradient-to-t from-white/0 to-green-800/30 cursor-grab select-none text-gray-700"
                 >
                   <p className="block font-sans text-sm font-semibold leading-none">
                     {column.label}
@@ -62,7 +62,7 @@ const ReusableTable = ({
 
               {/* Action Header */}
               {(onEdit || onView || onDelete) && (
-                <th className="p-4 border-b border-gray-200 bg-gradient-to-b from-white/0 to-green-800/10 text-gray-700">
+                <th className="p-4 border-b border-gray-200 bg-gradient-to-t from-white/0 to-green-800/30 text-gray-700">
                   <p className="block font-sans text-sm font-semibold leading-none">
                     Action
                   </p>

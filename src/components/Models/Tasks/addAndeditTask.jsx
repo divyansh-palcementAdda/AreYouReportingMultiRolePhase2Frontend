@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { addTask, updateTask } from "../../../Services/taskService";
+import { getDepartmentsDropdown, getSubDepartmentsDropdown, getEligibleAssignees, getTaskTemplatesDropdown } from "../../../Services/dropdownService";
 import { toast } from "react-toastify";
 
 const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
@@ -56,6 +57,48 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
       });
     }
   }, [taskToEdit, isOpen]);
+
+  // Fetch dropdown data when modal opens
+  useEffect(() => {
+    const fetchDropdownData = async () => {
+      if (!isOpen) return;
+
+      try {
+        // Fetch departments
+        const departmentsParams = {
+          pageable: { page: 0, size: 100, sort: ["name"] }
+        };
+        const departmentsResponse = await getDepartmentsDropdown(departmentsParams);
+        setDepartments(departmentsResponse?.content || departmentsResponse || []);
+
+        // Fetch sub-departments
+        const subDepartmentsParams = {
+          pageable: { page: 0, size: 100, sort: ["name"] }
+        };
+        const subDepartmentsResponse = await getSubDepartmentsDropdown(subDepartmentsParams);
+        setSubDepartments(subDepartmentsResponse?.content || subDepartmentsResponse || []);
+
+        // Fetch eligible assignees
+        const assigneesParams = {
+          pageable: { page: 0, size: 100, sort: ["name"] }
+        };
+        const assigneesResponse = await getEligibleAssignees(assigneesParams);
+        setAssignees(assigneesResponse?.content || assigneesResponse || []);
+
+        // Fetch task templates
+        const templatesParams = {
+          pageable: { page: 0, size: 100, sort: ["name"] }
+        };
+        const templatesResponse = await getTaskTemplatesDropdown(templatesParams);
+        setTemplates(templatesResponse?.content || templatesResponse || []);
+      } catch (error) {
+        console.error("Error fetching dropdown data:", error);
+        toast.error("Failed to load dropdown data");
+      }
+    };
+
+    fetchDropdownData();
+  }, [isOpen]);
 
   const handleInputChange = (e) => {
     const { name, value, type } = e.target;

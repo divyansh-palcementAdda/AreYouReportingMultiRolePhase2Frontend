@@ -5,14 +5,15 @@ import { ChevronDown, ChevronRight, Menu, X, LayoutDashboard, ClipboardList, Che
 const SideBar = ({ isOpen, setIsOpen }) => {
   const navigate = useNavigate();
   const [openSubmenu, setOpenSubmenu] = useState(null);
-  const [activeItem, setActiveItem] = useState(null);
+  const [activeParent, setActiveParent] = useState(null);
+  const [activeSubmenu, setActiveSubmenu] = useState(null);
 
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard, route: '/admin-dashboard' },
     { name: 'All Task', icon: ClipboardList, route: '/all-task' },
     { name: 'My Task', icon: CheckCircle },
     { name: 'All User', icon: Users ,route: '/all-users'},
-    { name: 'All Department / Sub Department', icon: Building },
+    { name: 'All Department / Sub Department', icon: Building,route: '/all-departments' },
     { name: 'Pending Approval', icon: Clock },
     { name: 'All Work', icon: Briefcase },
     { name: 'User Task Analytics', icon: BarChart3 },
@@ -20,17 +21,30 @@ const SideBar = ({ isOpen, setIsOpen }) => {
       name: 'Settings',
       icon: Settings,
       submenu: [
-        { name: 'Profile Settings' },
-        { name: 'User Management' },
-        { name: 'Role & Permission' },
-        { name: 'Notification Settings' },
-        { name: 'System Settings' },
+        // { name: 'Profile Settings' },
+        // { name: 'User Management' },
+        { name: 'Role & Permission',route: '/role-and-permission'},
+        // { name: 'Notification Settings' },
+        // { name: 'System Settings' },
       ],
     },
   ];
 
   const toggleSubmenu = (index) => {
     setOpenSubmenu(openSubmenu === index ? null : index);
+    // Set parent as active when opening submenu
+    if (openSubmenu !== index) {
+      setActiveParent(index);
+    }
+  };
+
+  const handleSubmenuClick = (index, subIndex, route) => {
+    setActiveSubmenu(`${index}-${subIndex}`);
+    // Set parent as active when submenu item is clicked
+    setActiveParent(index);
+    if (route) {
+      navigate(route);
+    }
   };
 
   return (
@@ -79,16 +93,20 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                   <div>
                     <button
                       onClick={() => toggleSubmenu(index)}
-                      className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-100 transition-colors"
+                      className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
+                        activeParent === index || openSubmenu === index
+                          ? 'bg-gradient-to-b from-white/0 to-green-900/10 text-[#2b7818]'
+                          : 'hover:bg-gray-100 text-gray-700'
+                      }`}
                     >
                       <div className="flex items-center gap-3">
-                        <item.icon size={20} className="text-gray-600" />
-                        <span className="font-medium text-gray-700">{item.name}</span>
+                        <item.icon size={20} className={activeParent === index || openSubmenu === index ? 'text-[#2b7818]' : 'text-gray-600'} />
+                        <span className="font-medium">{item.name}</span>
                       </div>
                       {openSubmenu === index ? (
-                        <ChevronDown size={20} className="text-gray-500" />
+                        <ChevronDown size={20} className={activeParent === index || openSubmenu === index ? 'text-[#2b7818]' : 'text-gray-500'} />
                       ) : (
-                        <ChevronRight size={20} className="text-gray-500" />
+                        <ChevronRight size={20} className={activeParent === index || openSubmenu === index ? 'text-[#2b7818]' : 'text-gray-500'} />
                       )}
                     </button>
                     {openSubmenu === index && (
@@ -96,9 +114,9 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                         {item.submenu.map((subItem, subIndex) => (
                           <li key={subIndex}>
                             <button
-                              onClick={() => setActiveItem(`${index}-${subIndex}`)}
+                              onClick={() => handleSubmenuClick(index, subIndex, subItem.route)}
                               className={`block w-full text-left p-2 rounded-lg transition-colors ${
-                                activeItem === `${index}-${subIndex}`
+                                activeSubmenu === `${index}-${subIndex}`
                                   ? 'bg-gradient-to-b from-white/0 to-green-800/10 text-[#2b7818] font-medium'
                                   : 'text-gray-600 hover:text-gray-900'
                               }`}
@@ -113,13 +131,15 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                 ) : (
                   <button
                     onClick={() => {
-                      setActiveItem(index);
+                      setActiveParent(index);
+                      setActiveSubmenu(null);
+                      setOpenSubmenu(null);
                       if (item.route) {
                         navigate(item.route);
                       }
                     }}
                     className={`flex items-center gap-3 p-3 rounded-lg transition-colors w-full ${
-                      activeItem === index
+                      activeParent === index
                         ? 'bg-gradient-to-b from-white/0 to-green-900/10 text-[#2b7818]'
                         : 'hover:bg-gray-100 text-gray-700'
                     }`}
