@@ -4,7 +4,7 @@ import Table from "../../components/reusable/table"
 import { getAllTasks, deleteTask } from "../../Services/taskService"
 import AddAndEditTaskModal from "../../components/Models/Tasks/addAndeditTask"
 import DeleteModal from "../../components/reusable/deleteModel"
-import { Plus } from "lucide-react"
+import { Plus, Search } from "lucide-react"
 
 const AllTask = () => {
   const navigate = useNavigate()
@@ -16,6 +16,8 @@ const AllTask = () => {
   const [currentPage, setCurrentPage] = useState(0)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [taskToDelete, setTaskToDelete] = useState(null)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
 
   const columns = [
     { key: "serialNo", label: "S.No" },
@@ -25,7 +27,7 @@ const AllTask = () => {
     { key: "assignee", label: "Assignee" },
   ]
 
-  const fetchTasks = async (page = 0) => {
+  const fetchTasks = async (page = 0, query = "") => {
     setLoading(true)
     try {
       const params = {
@@ -35,6 +37,11 @@ const AllTask = () => {
           sort: ["createdAt,desc"]
         }
       }
+      
+      if (query && query.trim()) {
+        params.search = query.trim()
+      }
+      
       const response = await getAllTasks(params)
       setTasks(response.data?.content || response.content || [])
       setPagination(response.data || {
@@ -54,6 +61,21 @@ const AllTask = () => {
   useEffect(() => {
     fetchTasks(0)
   }, [])
+
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery)
+    }, 500)
+    
+    return () => clearTimeout(timer)
+  }, [searchQuery])
+
+  // Fetch tasks when debounced search query changes
+  useEffect(() => {
+    setCurrentPage(0)
+    fetchTasks(0, debouncedSearchQuery)
+  }, [debouncedSearchQuery])
 
   const handleAddTask = () => {
     setTaskToEdit(null)
@@ -76,7 +98,7 @@ const AllTask = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page)
-    fetchTasks(page)
+    fetchTasks(page, debouncedSearchQuery)
   }
 
   const handleDeleteClick = (task) => {
@@ -110,6 +132,20 @@ const AllTask = () => {
           <Plus size={20} />
           Add Task
         </button>
+      </div>
+
+      {/* Search Input */}
+      <div className="mb-4">
+        <div className="relative w-96">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+          <input
+            type="text"
+            placeholder="Search tasks..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          />
+        </div>
       </div>
 
       {loading ? (

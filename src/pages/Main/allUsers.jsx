@@ -40,7 +40,8 @@ const AllUsers = () => {
       label: "Roles", 
       render: (value) => {
         if (!value || value.length === 0) return "-"
-        return value.map(ra => ra.roleName || ra.roleId).join(", ")
+        const rolesToShow = value.slice(0, 2).map(ra => ra.roleName || ra.roleId).join(", ")
+        return rolesToShow
       }
     },
     { 
@@ -48,7 +49,8 @@ const AllUsers = () => {
       label: "Departments", 
       render: (value) => {
         if (!value || value.length === 0) return "-"
-        return value.map(dept => dept.name).join(", ")
+        const departmentsToShow = value.slice(0, 2).map(dept => dept.name).join(", ")
+        return departmentsToShow
       }
     },
     {

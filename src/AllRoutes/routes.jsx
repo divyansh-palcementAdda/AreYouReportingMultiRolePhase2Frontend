@@ -12,6 +12,7 @@ import TaskDetails from "../pages/Main/detailspages/taskDetails"
 import UserDetails from "../pages/Main/detailspages/userDetails"
 import DepartmentDetails from "../pages/Main/detailspages/departmentDetails"
 import SubDepartmentDetails from "../pages/Main/detailspages/subDepartmentDetails"
+import PendingApprove from "../pages/Main/pendingapprove"
 
 export default function AppRoutes() {
     return (
@@ -30,6 +31,7 @@ export default function AppRoutes() {
                 <Route path="/user-details/:id" element={<MainLayout><UserDetails /></MainLayout>} />
                 <Route path="/department-details/:id" element={<MainLayout><DepartmentDetails /></MainLayout>} />
                 <Route path="/sub-department-details/:subDeptId" element={<MainLayout><SubDepartmentDetails /></MainLayout>} />
+                <Route path="/pending-approve" element={<MainLayout><PendingApprove /></MainLayout>} />
             </Routes>
         </BrowserRouter>
     )
