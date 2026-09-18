@@ -13,7 +13,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
     { name: 'All Task', icon: ClipboardList, route: '/all-task' },
     { name: 'My Task', icon: CheckCircle },
     { name: 'All User', icon: Users ,route: '/all-users'},
-    { name: 'All Department / Sub Department', icon: Building,route: '/all-departments' },
+    { name: 'All Department', icon: Building,route: '/all-departments' },
     { name:  'All Task Template' , icon: CheckCircle, route: '/all-task-template' },
     { name: 'Pending Approval', icon: Clock ,route: '/pending-approve' },
     { name: 'All Work', icon: Briefcase },
@@ -96,18 +96,18 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                       onClick={() => toggleSubmenu(index)}
                       className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
                         activeParent === index || openSubmenu === index
-                          ? 'bg-gradient-to-b from-white/0 to-green-900/10 text-[#2b7818]'
+                          ? 'bg-green-50 text-green-800 border-l-4 border-green-800'
                           : 'hover:bg-gray-100 text-gray-700'
                       }`}
                     >
                       <div className="flex items-center gap-3">
-                        <item.icon size={20} className={activeParent === index || openSubmenu === index ? 'text-[#2b7818]' : 'text-gray-600'} />
+                        <item.icon size={20} className={activeParent === index || openSubmenu === index ? 'text-green-800' : 'text-gray-600'} />
                         <span className="font-medium">{item.name}</span>
                       </div>
                       {openSubmenu === index ? (
-                        <ChevronDown size={20} className={activeParent === index || openSubmenu === index ? 'text-[#2b7818]' : 'text-gray-500'} />
+                        <ChevronDown size={20} className={activeParent === index || openSubmenu === index ? 'text-green-800' : 'text-gray-500'} />
                       ) : (
-                        <ChevronRight size={20} className={activeParent === index || openSubmenu === index ? 'text-[#2b7818]' : 'text-gray-500'} />
+                        <ChevronRight size={20} className={activeParent === index || openSubmenu === index ? 'text-green-800' : 'text-gray-500'} />
                       )}
                     </button>
                     {openSubmenu === index && (
@@ -141,11 +141,11 @@ const SideBar = ({ isOpen, setIsOpen }) => {
                     }}
                     className={`flex items-center gap-3 p-3 rounded-lg transition-colors w-full ${
                       activeParent === index
-                        ? 'bg-gradient-to-b from-white/0 to-green-900/10 text-[#2b7818]'
+                        ? 'bg-green-50 text-green-800 border-l-4 border-green-800'
                         : 'hover:bg-gray-100 text-gray-700'
                     }`}
                   >
-                    <item.icon size={20} />
+                    <item.icon size={20} className={activeParent === index ? 'text-green-800' : 'text-gray-600'} />
                     <span className="font-medium">{item.name}</span>
                   </button>
                 )}

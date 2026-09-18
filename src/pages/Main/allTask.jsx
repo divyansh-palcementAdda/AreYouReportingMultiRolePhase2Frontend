@@ -4,7 +4,7 @@ import Table from "../../components/reusable/table"
 import { getAllTasks, deleteTask } from "../../Services/taskService"
 import AddAndEditTaskModal from "../../components/Models/Tasks/addAndeditTask"
 import DeleteModal from "../../components/reusable/deleteModel"
-import { Plus, Search } from "lucide-react"
+import { Plus, Search, Circle, CheckCircle2 } from "lucide-react"
 
 const AllTask = () => {
   const navigate = useNavigate()
@@ -19,11 +19,52 @@ const AllTask = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
 
+  // Status badge rendering
+  const renderStatusBadge = (status) => {
+    const statusConfig = {
+      'PENDING': { color: 'text-yellow-600', bg: 'bg-yellow-50', icon: Circle },
+      'IN PROGRESS': { color: 'text-blue-600', bg: 'bg-blue-50', icon: Circle },
+      'REVIEW': { color: 'text-purple-600', bg: 'bg-purple-50', icon: Circle },
+      'COMPLETED': { color: 'text-green-600', bg: 'bg-green-50', icon: CheckCircle2 },
+      'OVERDUE': { color: 'text-red-600', bg: 'bg-red-50', icon: Circle },
+    }
+
+    const config = statusConfig[status] || { color: 'text-gray-600', bg: 'bg-gray-50', icon: Circle }
+    const Icon = config.icon
+
+    return (
+      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${config.bg} ${config.color}`}>
+        <Icon size={10} fill="currentColor" />
+        {status}
+      </span>
+    )
+  }
+
+  // Priority badge rendering
+  const renderPriorityBadge = (priority) => {
+    const priorityConfig = {
+      'High': { color: 'text-yellow-600', bg: 'bg-yellow-50', icon: Circle },
+      'Urgent': { color: 'text-red-600', bg: 'bg-red-50', icon: Circle },
+      'Medium': { color: 'text-yellow-600', bg: 'bg-yellow-50', icon: Circle },
+      'Low': { color: 'text-green-600', bg: 'bg-green-50', icon: Circle },
+    }
+
+    const config = priorityConfig[priority] || { color: 'text-gray-600', bg: 'bg-gray-50', icon: Circle }
+    const Icon = config.icon
+
+    return (
+      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${config.bg} ${config.color}`}>
+        <Icon size={10} fill="currentColor" />
+        {priority}
+      </span>
+    )
+  }
+
   const columns = [
     { key: "serialNo", label: "S.No" },
     { key: "title", label: "Title" },
-    { key: "status", label: "Status" },
-    { key: "priority", label: "Priority" },
+    { key: "status", label: "Status", render: renderStatusBadge },
+    { key: "priority", label: "Priority", render: renderPriorityBadge },
     { key: "assignee", label: "Assignee" },
   ]
 
