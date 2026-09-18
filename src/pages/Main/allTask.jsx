@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import Table from "../../components/reusable/table"
 import { getAllTasks, deleteTask } from "../../Services/taskService"
 import AddAndEditTaskModal from "../../components/Models/Tasks/addAndeditTask"
@@ -6,6 +7,7 @@ import DeleteModal from "../../components/reusable/deleteModel"
 import { Plus } from "lucide-react"
 
 const AllTask = () => {
+  const navigate = useNavigate()
   const [tasks, setTasks] = useState([])
   const [loading, setLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -93,6 +95,10 @@ const AllTask = () => {
     }
   }
 
+  const handleViewTask = (task) => {
+    navigate(`/task-details/${task.id}`)
+  }
+
   return (
     <div className="mt-2">
       <div className="flex justify-between items-center mb-4">
@@ -116,6 +122,7 @@ const AllTask = () => {
             serialNo: currentPage * 10 + index + 1
           }))} 
           onEdit={handleEditTask}
+          onView={handleViewTask}
           onDelete={handleDeleteClick}
           pagination={pagination}
           onPageChange={handlePageChange}

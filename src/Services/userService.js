@@ -51,3 +51,15 @@ export const deleteUser = async (id) => {
     throw error;
   }
 };
+
+// ------------------------------------
+// Get User By ID Service
+// ------------------------------------
+export const getUserById = async (id) => {
+  try {
+    const response = await axiosInstance.get(apiAllRoutes.user.getUserById.replace("{id}", id));
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

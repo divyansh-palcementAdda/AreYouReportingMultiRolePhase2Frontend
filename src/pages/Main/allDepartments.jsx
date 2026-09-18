@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import Table from "../../components/reusable/table"
 import { getAllDepartments, deleteDepartment, getSubDepartmentsByDepartmentId, deactivateSubDepartment } from "../../Services/departmentService"
 import AddAndEditDepartmentModal from "../../components/Models/Department/addAndeditDepartment"
 import AddAndEditSubDepartmentModal from "../../components/Models/subDepartment/addAndEditSub"
 import DeleteModal from "../../components/reusable/deleteModel"
-import { Plus, Building2, ChevronRight, Edit, Trash2 } from "lucide-react"
+import { Plus, Building2, ChevronRight, Edit, Trash2, Eye } from "lucide-react"
 import { toast } from "react-toastify"
 
 const AllDepartments = () => {
+  const navigate = useNavigate()
   const [departments, setDepartments] = useState([])
   const [subDepartments, setSubDepartments] = useState([])
   const [loading, setLoading] = useState(false)
@@ -42,6 +44,13 @@ const AllDepartments = () => {
       label: "Actions",
       render: (value, row) => (
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => handleViewSubDepartment(row)}
+            className="p-2 text-green-600 hover:bg-green-50 rounded transition-colors"
+            title="View Sub-Department Details"
+          >
+            <Eye size={18} />
+          </button>
           <button
             onClick={() => handleEditSubDepartment(row)}
             className="p-2 text-green-600 hover:bg-green-50 rounded transition-colors"
@@ -106,8 +115,9 @@ const AllDepartments = () => {
     setIsModalOpen(true)
   }
 
-  const handleViewDepartment = (department) => {
-    setSelectedDepartment(department)
+  const handleViewDepartment = (department, e) => {
+    e.stopPropagation()
+    navigate(`/department-details/${department.id}`)
   }
 
   const handleDepartmentClick = async (department) => {
@@ -166,6 +176,10 @@ const AllDepartments = () => {
   const handleEditSubDepartment = (subDepartment) => {
     setSubDepartmentToEdit(subDepartment)
     setIsSubModalOpen(true)
+  }
+
+  const handleViewSubDepartment = (subDepartment) => {
+    navigate(`/sub-department-details/${subDepartment.id}`)
   }
 
   const handleDeleteSubDepartment = (subDepartment) => {
@@ -261,9 +275,18 @@ const AllDepartments = () => {
                     <Building2 size={18} className="text-green-600" />
                     <h3 className="font-semibold text-gray-800">{department.name}</h3>
                   </div>
-                  {selectedDepartment?.id === department.id && (
-                    <ChevronRight size={18} className="text-green-600" />
-                  )}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => handleViewDepartment(department, e)}
+                      className="p-1.5 text-green-600 hover:bg-green-50 rounded transition-colors"
+                      title="View Department Details"
+                    >
+                      <Eye size={16} />
+                    </button>
+                    {selectedDepartment?.id === department.id && (
+                      <ChevronRight size={18} className="text-green-600" />
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

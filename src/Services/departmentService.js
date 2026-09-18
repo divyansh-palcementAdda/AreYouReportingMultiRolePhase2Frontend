@@ -67,6 +67,20 @@ export const deleteDepartment = async (id) => {
   }
 };
 
+// ------------------------------------
+// Get Department by ID Service
+// Retrieves department details by ID
+// Path param: id (string, UUID)
+// ------------------------------------
+export const getDepartmentById = async (id) => {
+  try {
+    const response = await axiosInstance.get(apiAllRoutes.department.getDepartmentById.replace("{id}", id));
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // ----------------sub department --------------------
 
 
@@ -80,6 +94,20 @@ export const getSubDepartmentsByDepartmentId = async (deptId, params) => {
     const response = await axiosInstance.get(apiAllRoutes.department.getAllSubDepartment.replace("{deptId}", deptId), {
       params: params
     });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ------------------------------------
+// Get Sub-department by ID Service
+// Retrieves sub-department details by ID
+// Path param: subDeptId (string, UUID)
+// ------------------------------------
+export const getSubDepartmentById = async (subDeptId) => {
+  try {
+    const response = await axiosInstance.get(apiAllRoutes.department.getSubDepartmentById.replace("{subDeptId}", subDeptId));
     return response.data;
   } catch (error) {
     throw error;

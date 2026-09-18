@@ -8,12 +8,17 @@ import AllDepartments from "../pages/Main/allDepartments"
 import RoleandPermissions from "../pages/Settings/rolesAndPermissions"
 import AllTaskTemplate from "../pages/Main/taskTemplate"
 import UserTaskAnalitices from "../pages/Main/userTaskAnalitices"
+import TaskDetails from "../pages/Main/detailspages/taskDetails"
+import UserDetails from "../pages/Main/detailspages/userDetails"
+import DepartmentDetails from "../pages/Main/detailspages/departmentDetails"
+import SubDepartmentDetails from "../pages/Main/detailspages/subDepartmentDetails"
 
 export default function AppRoutes() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/admin-dashboard" element={<MainLayout><AdminDashboard /></MainLayout>} />
                 <Route path="/all-task" element={<MainLayout><AllTask /></MainLayout>} />
                 <Route path="/all-users" element={<MainLayout><AllUsers /></MainLayout>} />
@@ -21,6 +26,10 @@ export default function AppRoutes() {
                 <Route path="/role-and-permission" element={<MainLayout><RoleandPermissions /></MainLayout>} />
                 <Route path="/all-task-template" element={<MainLayout><AllTaskTemplate /></MainLayout>} />
                 <Route path="/user-task-analitices" element={<MainLayout><UserTaskAnalitices /></MainLayout>} />
+                <Route path="/task-details/:id" element={<MainLayout><TaskDetails /></MainLayout>} />
+                <Route path="/user-details/:id" element={<MainLayout><UserDetails /></MainLayout>} />
+                <Route path="/department-details/:id" element={<MainLayout><DepartmentDetails /></MainLayout>} />
+                <Route path="/sub-department-details/:subDeptId" element={<MainLayout><SubDepartmentDetails /></MainLayout>} />
             </Routes>
         </BrowserRouter>
     )

@@ -50,3 +50,15 @@ export const deleteTask = async (id) => {
     throw error;
   }
 };
+
+// ------------------------------------
+// Get Task By ID Service
+// ------------------------------------
+export const getTaskById = async (id) => {
+  try {
+    const response = await axiosInstance.get(apiAllRoutes.task.getTaskById.replace("{id}", id));
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

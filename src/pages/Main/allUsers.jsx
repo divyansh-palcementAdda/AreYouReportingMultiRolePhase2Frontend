@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import Table from "../../components/reusable/table"
 import { getAllUsers, deleteUser } from "../../Services/userService"
 import AddAndEditUserModal from "../../components/Models/User/addAndeditusers"
@@ -7,6 +8,7 @@ import { Plus, Edit, Trash2, User } from "lucide-react"
 import { toast } from "react-toastify"
 
 const AllUsers = () => {
+  const navigate = useNavigate()
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -102,6 +104,10 @@ const AllUsers = () => {
     setIsDeleteModalOpen(true)
   }
 
+  const handleViewUser = (user) => {
+    navigate(`/user-details/${user.id}`)
+  }
+
   const handleConfirmDelete = async () => {
     if (userToDelete) {
       try {
@@ -156,6 +162,7 @@ const AllUsers = () => {
           onPageChange={handlePageChange}
           onEdit={handleEditUser}
           onDelete={handleDeleteUser}
+          onView={handleViewUser}
           emptyMessage="No users found"
         />
       )}

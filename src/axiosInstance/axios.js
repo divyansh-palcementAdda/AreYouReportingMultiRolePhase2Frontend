@@ -107,94 +107,94 @@ axiosInstance.interceptors.response.use(
     // ------------------------------------
     // Handle 401
     // ------------------------------------
-    // if (status === 401 && !originalRequest._retry) {
-    //   // Don't refresh token for auth APIs
-    //   if (
-    //     originalRequest.url?.includes("/") ||
-    //     originalRequest.url?.includes("/refresh") ||
-    //     originalRequest.url?.includes("/")
-    //   ) {
-    //     return Promise.reject(error);
-    //   }
+    if (status === 401 && !originalRequest._retry) {
+      // Don't refresh token for auth APIs
+      if (
+        originalRequest.url?.includes("/auth/login") ||
+        originalRequest.url?.includes("/auth/refresh") ||
+        originalRequest.url?.includes("/auth/register")
+      ) {
+        return Promise.reject(error);
+      }
 
-    //   originalRequest._retry = true;
+      originalRequest._retry = true;
 
-    //   // ------------------------------------
-    //   // If refresh is already running
-    //   // ------------------------------------
-    //   if (isRefreshing) {
-    //     return new Promise((resolve, reject) => {
-    //       failedQueue.push({
-    //         resolve: (token) => {
-    //           originalRequest.headers.Authorization = `Bearer ${token}`;
-    //           resolve(axiosInstance(originalRequest));
-    //         },
-    //         reject,
-    //       });
-    //     });
-    //   }
+      // ------------------------------------
+      // If refresh is already running
+      // ------------------------------------
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({
+            resolve: (token) => {
+              originalRequest.headers.Authorization = `Bearer ${token}`;
+              resolve(axiosInstance(originalRequest));
+            },
+            reject,
+          });
+        });
+      }
 
-    //   // ------------------------------------
-    //   // Start Refresh
-    //   // ------------------------------------
-    //   isRefreshing = true;
+      // ------------------------------------
+      // Start Refresh
+      // ------------------------------------
+      isRefreshing = true;
 
-    //   try {
-    //     const refreshToken = getRefreshToken();
+      try {
+        const refreshToken = getRefreshToken();
 
-    //     if (!refreshToken) {
-    //       throw new Error("Refresh token not found");
-    //     }
+        if (!refreshToken) {
+          throw new Error("Refresh token not found");
+        }
 
-    //     const response = await axios.post(
-    //       `${import.meta.env.VITE_BASE_URL}/api/v1/auth/refresh`,
-    //       {
-    //         refreshToken: refreshToken
-    //       },
-    //       {
-    //         withCredentials: true,
-    //       }
-    //     );
+        const response = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}api/v1/auth/refresh`,
+          {
+            refreshToken: refreshToken
+          },
+          {
+            withCredentials: true,
+          }
+        );
 
-    //     const newAccessToken = response.data?.data?.accessToken;
-    //     const newRefreshToken = response.data?.data?.refreshToken;
+        const newAccessToken = response.data?.data?.accessToken;
+        const newRefreshToken = response.data?.data?.refreshToken;
 
-    //     if (!newAccessToken) {
-    //       throw new Error("Access token not received");
-    //     }
+        if (!newAccessToken) {
+          throw new Error("Access token not received");
+        }
 
-    //     // Save new tokens
-    //     setAccessToken(newAccessToken);
-    //     if (newRefreshToken) {
-    //       setRefreshToken(newRefreshToken);
-    //     }
+        // Save new tokens
+        setAccessToken(newAccessToken);
+        if (newRefreshToken) {
+          setRefreshToken(newRefreshToken);
+        }
 
-    //     // Update default Authorization
-    //     axiosInstance.defaults.headers.common.Authorization =
-    //       `Bearer ${newAccessToken}`;
+        // Update default Authorization
+        axiosInstance.defaults.headers.common.Authorization =
+          `Bearer ${newAccessToken}`;
 
-    //     // Resolve queued requests
-    //     processQueue(null, newAccessToken);
+        // Resolve queued requests
+        processQueue(null, newAccessToken);
 
-    //     // Retry original request
-    //     originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        // Retry original request
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
 
-    //     return axiosInstance(originalRequest);
-    //   } catch (refreshError) {
-    //     // Reject queued requests
-    //     processQueue(refreshError, null);
+        return axiosInstance(originalRequest);
+      } catch (refreshError) {
+        // Reject queued requests
+        processQueue(refreshError, null);
 
-    //     // Remove authentication
-    //     clearAuth();
+        // Remove authentication
+        clearAuth();
 
-    //     // Redirect to login
-    //     window.location.href = "/login";
+        // Redirect to login
+        window.location.href = "/login";
 
-    //     return Promise.reject(refreshError);
-    //   } finally {
-    //     isRefreshing = false;
-    //   }
-    // }
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+      }
+    }
 
     return Promise.reject(error);
   }
