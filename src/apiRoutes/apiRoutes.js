@@ -15,6 +15,7 @@ const apiAllRoutes = {
     addUser :"/api/v1/users",
     updateUser :"/api/v1/users/{id}",
     deleteUser :"/api/v1/users/{id}",
+    getUsersByDepartment:"/api/v1/users/by-department/{departmentId}",
   },
   department:{
     getAllDepartments :"/api/v1/departments",
@@ -41,6 +42,12 @@ const apiAllRoutes = {
     updateRole:"/api/v1/roles/{id}",
     deleteRole:"/api/v1/roles/{id}",
     updateRolePermissions:"/api/v1/roles/{id}/permissions"
+  },
+  taskTemplate:{
+    getAllTaskTemplates:"/api/v1/task-templates",
+    addTaskTemplate:"/api/v1/task-templates",
+    updateTaskTemplate:"/api/v1/task-templates/{id}",
+    deleteTaskTemplate:"/api/v1/task-templates/{id}"
   }
 
 }

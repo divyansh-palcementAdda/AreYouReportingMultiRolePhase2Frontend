@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import Table from "../../components/reusable/table"
-import { getAllDepartments, deleteDepartment, getSubDepartmentsByDepartmentId } from "../../Services/departmentService"
+import { getAllDepartments, deleteDepartment, getSubDepartmentsByDepartmentId, deactivateSubDepartment } from "../../Services/departmentService"
 import AddAndEditDepartmentModal from "../../components/Models/Department/addAndeditDepartment"
 import AddAndEditSubDepartmentModal from "../../components/Models/subDepartment/addAndEditSub"
 import DeleteModal from "../../components/reusable/deleteModel"
@@ -21,6 +21,8 @@ const AllDepartments = () => {
   const [itemsPerPage] = useState(10)
   const [isSubModalOpen, setIsSubModalOpen] = useState(false)
   const [subDepartmentToEdit, setSubDepartmentToEdit] = useState(null)
+  const [isSubDeleteModalOpen, setIsSubDeleteModalOpen] = useState(false)
+  const [subDepartmentToDelete, setSubDepartmentToDelete] = useState(null)
 
   const subDepartmentColumns = [
     { 
@@ -35,6 +37,28 @@ const AllDepartments = () => {
       const status = row.active !== undefined ? row.active : (row.isActive !== undefined ? row.isActive : true);
       return status ? "Active" : "Inactive";
     }},
+    {
+      key: "actions",
+      label: "Actions",
+      render: (value, row) => (
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => handleEditSubDepartment(row)}
+            className="p-2 text-green-600 hover:bg-green-50 rounded transition-colors"
+            title="Edit Sub-Department"
+          >
+            <Edit size={18} />
+          </button>
+          <button
+            onClick={() => handleDeleteSubDepartment(row)}
+            className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
+            title="Delete Sub-Department"
+          >
+            <Trash2 size={18} />
+          </button>
+        </div>
+      )
+    }
   ]
 
   const fetchDepartments = async () => {
@@ -137,6 +161,35 @@ const AllDepartments = () => {
   const handleSubModalClose = () => {
     setIsSubModalOpen(false)
     setSubDepartmentToEdit(null)
+  }
+
+  const handleEditSubDepartment = (subDepartment) => {
+    setSubDepartmentToEdit(subDepartment)
+    setIsSubModalOpen(true)
+  }
+
+  const handleDeleteSubDepartment = (subDepartment) => {
+    setSubDepartmentToDelete(subDepartment)
+    setIsSubDeleteModalOpen(true)
+  }
+
+  const handleConfirmSubDelete = async () => {
+    if (subDepartmentToDelete) {
+      try {
+        await deactivateSubDepartment(subDepartmentToDelete.id)
+        toast.success("Sub-department deleted successfully!")
+        setIsSubDeleteModalOpen(false)
+        setSubDepartmentToDelete(null)
+        handleSuccess()
+      } catch (error) {
+        throw error
+      }
+    }
+  }
+
+  const handleSubDeleteModalClose = () => {
+    setIsSubDeleteModalOpen(false)
+    setSubDepartmentToDelete(null)
   }
 
   const handleSuccess = async () => {
@@ -276,6 +329,14 @@ const AllDepartments = () => {
         subDepartmentToEdit={subDepartmentToEdit}
         deptId={selectedDepartment?.id}
         onSuccess={handleSuccess}
+      />
+
+      <DeleteModal
+        isOpen={isSubDeleteModalOpen}
+        onClose={handleSubDeleteModalClose}
+        onDelete={handleConfirmSubDelete}
+        title="Delete Sub-Department"
+        message={`Are you sure you want to delete ${subDepartmentToDelete?.name}? This action cannot be undone.`}
       />
     </div>
   )

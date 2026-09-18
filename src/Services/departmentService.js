@@ -69,6 +69,7 @@ export const deleteDepartment = async (id) => {
 
 // ----------------sub department --------------------
 
+
 // Get Sub-departments by Department ID Service
 // Retrieves all sub-departments belonging to a department
 // Path param: deptId (string, UUID)

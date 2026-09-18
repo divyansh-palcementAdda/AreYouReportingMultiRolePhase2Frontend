@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { addUser, updateUser } from "../../../Services/userService";
+import { getDepartmentsDropdown, getSubDepartmentsDropdown } from "../../../Services/dropdownService";
+import { getAllRoles } from "../../../Services/roleandpermissionService";
 import { toast } from "react-toastify";
 
 const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
@@ -29,8 +31,8 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
         password: "",
         fullName: userToEdit.fullName || "",
         phoneNumber: userToEdit.phoneNumber || "",
-        departmentIds: userToEdit.departmentIds || [],
-        subDepartmentIds: userToEdit.subDepartmentIds || [],
+        departmentIds: userToEdit.departments?.map(d => d.id) || [],
+        subDepartmentIds: userToEdit.subDepartments?.map(sd => sd.id) || [],
         roleAssignments: userToEdit.roleAssignments || [],
       });
     } else {
@@ -46,6 +48,33 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
       });
     }
   }, [userToEdit, isOpen]);
+
+  useEffect(() => {
+    const fetchDropdownData = async () => {
+      if (isOpen) {
+        try {
+          // Fetch departments
+          const deptResponse = await getDepartmentsDropdown({ page: 0, size: 100 });
+          const departmentsData = deptResponse?.data?.content || deptResponse?.data || [];
+          setDepartments(departmentsData);
+
+          // Fetch sub-departments
+          const subDeptResponse = await getSubDepartmentsDropdown({ page: 0, size: 100 });
+          const subDepartmentsData = subDeptResponse?.data?.content || subDeptResponse?.data || [];
+          setSubDepartments(subDepartmentsData);
+
+          // Fetch roles
+          const rolesData = await getAllRoles();
+          setRoles(rolesData || []);
+        } catch (error) {
+          console.error("Error fetching dropdown data:", error);
+          toast.error("Failed to load dropdown data");
+        }
+      }
+    };
+
+    fetchDropdownData();
+  }, [isOpen]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
