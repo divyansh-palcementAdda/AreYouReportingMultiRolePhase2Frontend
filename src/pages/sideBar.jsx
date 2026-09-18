@@ -16,7 +16,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
     { name: 'All Department', icon: Building,route: '/all-departments' },
     { name:  'All Task Template' , icon: CheckCircle, route: '/all-task-template' },
     { name: 'Pending Approval', icon: Clock ,route: '/pending-approve' },
-    { name: 'All Work', icon: Briefcase },
+    { name: 'All Work', icon: Briefcase, route: '/all-works' },
     { name: 'User Task Analytics', icon: BarChart3,route:"/user-task-analitices" },
     {
       name: 'Settings',
