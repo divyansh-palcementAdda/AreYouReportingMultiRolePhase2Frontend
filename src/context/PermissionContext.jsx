@@ -49,16 +49,34 @@ export const PermissionProvider = ({ children }) => {
   const [permissions, setPermissions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Load permissions from cookies on mount
+  // Load permissions from cookies on mount and fetch from API if user is logged in
   useEffect(() => {
-    const storedPermissions = Cookies.get('userPermissions');
-    if (storedPermissions) {
-      try {
-        setPermissions(JSON.parse(storedPermissions));
-      } catch (error) {
-        console.error('Error parsing stored permissions:', error);
+    const loadPermissions = async () => {
+      // First load from cookies for immediate availability
+      const storedPermissions = Cookies.get('userPermissions');
+      if (storedPermissions) {
+        try {
+          setPermissions(JSON.parse(storedPermissions));
+        } catch (error) {
+          console.error('Error parsing stored permissions:', error);
+        }
       }
-    }
+
+      // Check if user is logged in and fetch fresh permissions from API
+      const accessToken = Cookies.get('accessToken');
+      const activeRoleId = Cookies.get('activeRoleId');
+      
+      if (accessToken && activeRoleId) {
+        try {
+          await fetchUserPermissions(activeRoleId);
+        } catch (error) {
+          console.error('Error fetching permissions on mount:', error);
+          // If API call fails, keep using cached permissions from cookies
+        }
+      }
+    };
+
+    loadPermissions();
   }, []);
 
   const fetchUserPermissions = async (roleId) => {
