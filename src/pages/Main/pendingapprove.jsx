@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Clock, CheckCircle, XCircle } from "lucide-react"
+import { Clock, CheckCircle, AlertCircle } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import Table from "../../components/reusable/table"
@@ -15,8 +15,8 @@ const PendingApprove = () => {
   const [currentPage, setCurrentPage] = useState(0)
   const [counts, setCounts] = useState({
     pending: 0,
-    approved: 0,
-    rejected: 0
+    closed: 0,
+    delayed: 0
   })
   const [deleteModal, setDeleteModal] = useState({
     isOpen: false,
@@ -64,13 +64,13 @@ const PendingApprove = () => {
       const pendingResponse = await getAllTasks({ statuses: ["PENDING"], pageable: { page: 0, size: 1 } })
       setCounts(prev => ({ ...prev, pending: pendingResponse.data?.totalElements || 0 }))
 
-      // Fetch approved count
-      const approvedResponse = await getAllTasks({ statuses: ["APPROVED"], pageable: { page: 0, size: 1 } })
-      setCounts(prev => ({ ...prev, approved: approvedResponse.data?.totalElements || 0 }))
+      // Fetch closed count
+      const closedResponse = await getAllTasks({ statuses: ["CLOSED"], pageable: { page: 0, size: 1 } })
+      setCounts(prev => ({ ...prev, closed: closedResponse.data?.totalElements || 0 }))
 
-      // Fetch rejected count
-      const rejectedResponse = await getAllTasks({ statuses: ["REJECTED"], pageable: { page: 0, size: 1 } })
-      setCounts(prev => ({ ...prev, rejected: rejectedResponse.data?.totalElements || 0 }))
+      // Fetch delayed count
+      const delayedResponse = await getAllTasks({ statuses: ["DELAYED"], pageable: { page: 0, size: 1 } })
+      setCounts(prev => ({ ...prev, delayed: delayedResponse.data?.totalElements || 0 }))
     } catch (error) {
       console.error("Error fetching counts:", error)
     }
@@ -84,7 +84,7 @@ const PendingApprove = () => {
     if (selectedStatus) {
       fetchTasksByStatus(selectedStatus, 0)
     }
-  }, [])
+  }, [selectedStatus])
 
   const handleCardClick = (status) => {
     setSelectedStatus(status)
@@ -137,61 +137,58 @@ const PendingApprove = () => {
         <h1 className="text-2xl font-bold text-gray-800">Pending Approvals</h1>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-        {/* Pending Card */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* PENDING Card */}
         <div 
           onClick={() => handleCardClick("PENDING")}
-          className={`bg-white rounded-lg border-2 p-2 hover:shadow-lg transition-all cursor-pointer ${
-            selectedStatus === "PENDING" 
-              ? "border-yellow-400 bg-yellow-50" 
-              : "border-gray-200 hover:border-yellow-400 hover:bg-yellow-50"
+          className={`bg-white rounded-xl p-4 shadow-sm border cursor-pointer transition-all hover:shadow-md ${
+            selectedStatus === "PENDING" ? "border-orange-400" : "border-gray-100"
           }`}
         >
-          <div className="flex flex-col items-center text-center">
-            <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center mb-1">
-              <Clock size={16} className="text-yellow-600" />
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-xs font-medium text-orange-500 mb-1">PENDING</h3>
+              <p className="text-2xl font-bold text-orange-600">{counts.pending}</p>
             </div>
-            <h3 className="text-sm font-bold text-gray-800 mb-0.5">Pending</h3>
-            <p className="text-gray-600 text-xs">Awaiting approval</p>
-            <div className="mt-1 text-lg font-bold text-yellow-600">{counts.pending}</div>
+            <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+              <Clock size={20} className="text-orange-600" />
+            </div>
           </div>
         </div>
 
-        {/* Approved Card */}
+        {/* CLOSED Card */}
         <div 
-          onClick={() => handleCardClick("APPROVED")}
-          className={`bg-white rounded-lg border-2 p-2 hover:shadow-lg transition-all cursor-pointer ${
-            selectedStatus === "APPROVED" 
-              ? "border-green-500 bg-green-50" 
-              : "border-gray-200 hover:border-green-500 hover:bg-green-50"
+          onClick={() => handleCardClick("CLOSED")}
+          className={`bg-white rounded-xl p-4 shadow-sm border cursor-pointer transition-all hover:shadow-md ${
+            selectedStatus === "CLOSED" ? "border-green-400" : "border-gray-100"
           }`}
         >
-          <div className="flex flex-col items-center text-center">
-            <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mb-1">
-              <CheckCircle size={16} className="text-green-600" />
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-xs font-medium text-green-500 mb-1">CLOSED</h3>
+              <p className="text-2xl font-bold text-green-600">{counts.closed}</p>
             </div>
-            <h3 className="text-sm font-bold text-gray-800 mb-0.5">Approved</h3>
-            <p className="text-gray-600 text-xs">Successfully approved</p>
-            <div className="mt-1 text-lg font-bold text-green-600">{counts.approved}</div>
+            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <CheckCircle size={20} className="text-green-600" />
+            </div>
           </div>
         </div>
 
-        {/* Rejected Card */}
+        {/* DELAYED Card */}
         <div 
-          onClick={() => handleCardClick("REJECTED")}
-          className={`bg-white rounded-lg border-2 p-2 hover:shadow-lg transition-all cursor-pointer ${
-            selectedStatus === "REJECTED" 
-              ? "border-red-500 bg-red-50" 
-              : "border-gray-200 hover:border-red-500 hover:bg-red-50"
+          onClick={() => handleCardClick("DELAYED")}
+          className={`bg-white rounded-xl p-4 shadow-sm border cursor-pointer transition-all hover:shadow-md ${
+            selectedStatus === "DELAYED" ? "border-red-400" : "border-gray-100"
           }`}
         >
-          <div className="flex flex-col items-center text-center">
-            <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center mb-1">
-              <XCircle size={16} className="text-red-600" />
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-xs font-medium text-red-500 mb-1">DELAYED</h3>
+              <p className="text-2xl font-bold text-red-600">{counts.delayed}</p>
             </div>
-            <h3 className="text-sm font-bold text-gray-800 mb-0.5">Rejected</h3>
-            <p className="text-gray-600 text-xs">Declined requests</p>
-            <div className="mt-1 text-lg font-bold text-red-600">{counts.rejected}</div>
+            <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+              <AlertCircle size={20} className="text-red-600" />
+            </div>
           </div>
         </div>
       </div>
@@ -201,8 +198,8 @@ const PendingApprove = () => {
         <div className="mt-6">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             {selectedStatus === "PENDING" && "Pending Tasks"}
-            {selectedStatus === "APPROVED" && "Approved Tasks"}
-            {selectedStatus === "REJECTED" && "Rejected Tasks"}
+            {selectedStatus === "CLOSED" && "Closed Tasks"}
+            {selectedStatus === "DELAYED" && "Delayed Tasks"}
           </h2>
           {loading ? (
             <div className="text-center py-8 text-gray-600">Loading...</div>

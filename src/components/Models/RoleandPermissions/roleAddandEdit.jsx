@@ -146,7 +146,7 @@ const RoleAddAndEditModal = ({ isOpen, onClose, roleToEdit, onSuccess }) => {
               onChange={handleInputChange}
               required
               disabled={loading}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter role name"
             />
           </div>
@@ -163,7 +163,7 @@ const RoleAddAndEditModal = ({ isOpen, onClose, roleToEdit, onSuccess }) => {
               rows="3"
               required
               disabled={loading}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter role description"
             />
           </div>
@@ -179,7 +179,7 @@ const RoleAddAndEditModal = ({ isOpen, onClose, roleToEdit, onSuccess }) => {
               onChange={handleInputChange}
               required
               disabled={loading}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <option value="GLOBAL">GLOBAL</option>
               <option value="DEPARTMENT">DEPARTMENT</option>
@@ -205,7 +205,7 @@ const RoleAddAndEditModal = ({ isOpen, onClose, roleToEdit, onSuccess }) => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     disabled={loading}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 

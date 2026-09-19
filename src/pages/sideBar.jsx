@@ -11,7 +11,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard, route: '/admin-dashboard' },
     { name: 'All Task', icon: ClipboardList, route: '/all-task' },
-    { name: 'My Task', icon: CheckCircle },
+    { name: 'My Task', icon: CheckCircle , route: '/my-task'},
     { name: 'All User', icon: Users ,route: '/all-users'},
     { name: 'All Department', icon: Building,route: '/all-departments' },
     { name:  'All Task Template' , icon: CheckCircle, route: '/all-task-template' },

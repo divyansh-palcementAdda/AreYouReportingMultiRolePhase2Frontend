@@ -183,7 +183,7 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 onChange={handleInputChange}
                 required
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter task title"
               />
             </div>
@@ -198,7 +198,7 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 onChange={handleInputChange}
                 required
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {priorityOptions.map((option) => (
                   <option key={option} value={option}>
@@ -219,7 +219,7 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
               onChange={handleInputChange}
               rows="3"
               disabled={loading}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter task description"
             />
           </div>
@@ -236,7 +236,7 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 value={formData.startDate}
                 onChange={handleInputChange}
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -250,7 +250,7 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 value={formData.dueDate}
                 onChange={handleInputChange}
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               />
             </div>
           </div>
@@ -340,7 +340,7 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
               value={formData.templateId}
               onChange={handleInputChange}
               disabled={loading}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <option value="">Select a template</option>
               {Array.isArray(templates) && templates.map((template) => (
@@ -365,7 +365,7 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 step="0.1"
                 min="0"
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter target count"
               />
             </div>
@@ -383,7 +383,7 @@ const AddAndEditTaskModal = ({ isOpen, onClose, taskToEdit, onSuccess }) => {
                 min="0"
                 max="100"
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter target percentage"
               />
             </div>

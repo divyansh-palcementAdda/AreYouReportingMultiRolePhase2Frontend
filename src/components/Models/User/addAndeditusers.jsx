@@ -217,7 +217,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                 onChange={handleInputChange}
                 required
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter username"
               />
             </div>
@@ -233,7 +233,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                 onChange={handleInputChange}
                 required
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter email"
               />
             </div>
@@ -251,7 +251,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                 onChange={handleInputChange}
                 required={!userToEdit}
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder={userToEdit ? "Leave blank to keep current" : "Enter password"}
               />
             </div>
@@ -266,7 +266,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                 value={formData.phoneNumber}
                 onChange={handleInputChange}
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter phone number"
               />
             </div>
@@ -283,7 +283,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
               onChange={handleInputChange}
               required
               disabled={loading}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter full name"
             />
           </div>
@@ -303,7 +303,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                         checked={formData.departmentIds.includes(dept.id)}
                         onChange={() => handleMultiSelect("departmentIds", dept.id)}
                         disabled={loading}
-                        className="mr-2 h-4 w-4 text-green-600 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="mr-2 h-4 w-4 text-green-600 focus:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                       <span className="text-sm text-gray-700">{dept.name}</span>
                     </label>
@@ -327,7 +327,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                         checked={formData.subDepartmentIds.includes(subDept.id)}
                         onChange={() => handleMultiSelect("subDepartmentIds", subDept.id)}
                         disabled={loading}
-                        className="mr-2 h-4 w-4 text-green-600 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="mr-2 h-4 w-4 text-green-600 focus:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                       <span className="text-sm text-gray-700">{subDept.name}</span>
                     </label>
@@ -382,7 +382,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                           value={roleAssignment.roleId}
                           onChange={(e) => handleRoleAssignmentChange(index, "roleId", e.target.value)}
                           disabled={loading}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                         >
                           <option value="">Select a role</option>
                           {roles.map((role) => (
@@ -401,7 +401,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                           value={roleAssignment.departmentId}
                           onChange={(e) => handleRoleAssignmentChange(index, "departmentId", e.target.value)}
                           disabled={loading}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                         >
                           <option value="">Select a department</option>
                           {departments.map((dept) => (
@@ -420,7 +420,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                           value={roleAssignment.subDepartmentId}
                           onChange={(e) => handleRoleAssignmentChange(index, "subDepartmentId", e.target.value)}
                           disabled={loading}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                         >
                           <option value="">Select a sub-department</option>
                           {subDepartments.map((subDept) => (
@@ -439,7 +439,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                           value={roleAssignment.dataScopeType}
                           onChange={(e) => handleRoleAssignmentChange(index, "dataScopeType", e.target.value)}
                           disabled={loading}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                         >
                           {dataScopeTypes.map((type) => (
                             <option key={type} value={type}>
@@ -464,7 +464,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                                   checked={(roleAssignment.customDepartmentIds || []).includes(dept.id)}
                                   onChange={() => handleRoleMultiSelect(index, "customDepartmentIds", dept.id)}
                                   disabled={loading}
-                                  className="mr-2 h-3 w-3 text-green-600 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="mr-2 h-3 w-3 text-green-600 focus:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                 />
                                 <span className="text-xs text-gray-700">{dept.name}</span>
                               </label>
@@ -484,7 +484,7 @@ const AddAndEditUserModal = ({ isOpen, onClose, userToEdit, onSuccess }) => {
                                   checked={(roleAssignment.customSubDepartmentIds || []).includes(subDept.id)}
                                   onChange={() => handleRoleMultiSelect(index, "customSubDepartmentIds", subDept.id)}
                                   disabled={loading}
-                                  className="mr-2 h-3 w-3 text-green-600 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="mr-2 h-3 w-3 text-green-600 focus:border-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                 />
                                 <span className="text-xs text-gray-700">{subDept.name}</span>
                               </label>

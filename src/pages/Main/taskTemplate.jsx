@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import Table from "../../components/reusable/table"
 import { getAllTaskTemplates, deleteTaskTemplate } from "../../Services/taskTemplateService"
 import AddAndEditTaskTemplateModal from "../../components/Models/TaskTemplate/addAndEditTaskTemplate"
 import DeleteModal from "../../components/reusable/deleteModel"
-import { Plus, Edit, Trash2 } from "lucide-react"
+import { Plus, Edit, Trash2, Eye } from "lucide-react"
 import { toast } from "react-toastify"
 
 const TaskTemplate = () => {
+  const navigate = useNavigate()
   const [taskTemplates, setTaskTemplates] = useState([])
   const [loading, setLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -37,6 +39,13 @@ const TaskTemplate = () => {
       label: "Actions",
       render: (value, row) => (
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => handleViewTaskTemplate(row)}
+            className="p-2 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+            title="View Task Template"
+          >
+            <Eye size={18} />
+          </button>
           <button
             onClick={() => handleEditTaskTemplate(row)}
             className="p-2 text-green-600 hover:bg-green-50 rounded transition-colors"
@@ -77,6 +86,10 @@ const TaskTemplate = () => {
   const handleAddTaskTemplate = () => {
     setTaskTemplateToEdit(null)
     setIsModalOpen(true)
+  }
+
+  const handleViewTaskTemplate = (taskTemplate) => {
+    navigate(`/task-template-details/${taskTemplate.id}`)
   }
 
   const handleEditTaskTemplate = (taskTemplate) => {

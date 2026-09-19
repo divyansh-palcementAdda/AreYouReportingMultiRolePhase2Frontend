@@ -224,7 +224,7 @@ const AddAndEditTaskTemplateModal = ({ isOpen, onClose, taskTemplateToEdit, onSu
               onChange={handleInputChange}
               required
               disabled={loading}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter task template name"
             />
           </div>
@@ -240,7 +240,7 @@ const AddAndEditTaskTemplateModal = ({ isOpen, onClose, taskTemplateToEdit, onSu
               onChange={handleInputChange}
               rows="3"
               disabled={loading}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Enter task template description"
             />
           </div>
@@ -257,7 +257,7 @@ const AddAndEditTaskTemplateModal = ({ isOpen, onClose, taskTemplateToEdit, onSu
                 value={formData.defaultPriority}
                 onChange={handleInputChange}
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="e.g., High, Medium, Low"
               />
             </div>
@@ -273,7 +273,7 @@ const AddAndEditTaskTemplateModal = ({ isOpen, onClose, taskTemplateToEdit, onSu
                 onChange={handleInputChange}
                 min="0"
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter duration in days"
               />
             </div>
@@ -289,7 +289,7 @@ const AddAndEditTaskTemplateModal = ({ isOpen, onClose, taskTemplateToEdit, onSu
                 onChange={handleInputChange}
                 min="0"
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter target count"
               />
             </div>
@@ -309,7 +309,7 @@ const AddAndEditTaskTemplateModal = ({ isOpen, onClose, taskTemplateToEdit, onSu
                 max="100"
                 step="0.1"
                 disabled={loading}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="Enter target percentage"
               />
             </div>
@@ -341,7 +341,7 @@ const AddAndEditTaskTemplateModal = ({ isOpen, onClose, taskTemplateToEdit, onSu
                   type="button"
                   onClick={() => setDepartmentDropdownOpen(!departmentDropdownOpen)}
                   disabled={loading || dropdownLoading}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed text-left bg-white flex justify-between items-center"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed text-left bg-white flex justify-between items-center"
                 >
                   <span>
                     {formData.applicableDepartmentIds.length === 0 
@@ -390,7 +390,7 @@ const AddAndEditTaskTemplateModal = ({ isOpen, onClose, taskTemplateToEdit, onSu
                   type="button"
                   onClick={() => setSubDepartmentDropdownOpen(!subDepartmentDropdownOpen)}
                   disabled={loading || dropdownLoading}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed text-left bg-white flex justify-between items-center"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-green-500 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed text-left bg-white flex justify-between items-center"
                 >
                   <span>
                     {formData.applicableSubDepartmentIds.length === 0 

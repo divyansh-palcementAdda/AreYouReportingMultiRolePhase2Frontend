@@ -12,8 +12,10 @@ import TaskDetails from "../pages/Main/detailspages/taskDetails"
 import UserDetails from "../pages/Main/detailspages/userDetails"
 import DepartmentDetails from "../pages/Main/detailspages/departmentDetails"
 import SubDepartmentDetails from "../pages/Main/detailspages/subDepartmentDetails"
+import TaskTemplateDetails from "../pages/Main/detailspages/taskTemplateDetails"
 import PendingApprove from "../pages/Main/pendingapprove"
 import AllWorks from "../pages/Main/allWorks"
+import MyTask from "../pages/Main/myTask"
 
 export default function AppRoutes() {
     return (
@@ -32,8 +34,10 @@ export default function AppRoutes() {
                 <Route path="/user-details/:id" element={<MainLayout><UserDetails /></MainLayout>} />
                 <Route path="/department-details/:id" element={<MainLayout><DepartmentDetails /></MainLayout>} />
                 <Route path="/sub-department-details/:subDeptId" element={<MainLayout><SubDepartmentDetails /></MainLayout>} />
+                <Route path="/task-template-details/:id" element={<MainLayout><TaskTemplateDetails /></MainLayout>} />
                 <Route path="/pending-approve" element={<MainLayout><PendingApprove /></MainLayout>} />
                 <Route path="/all-works" element={<MainLayout><AllWorks /></MainLayout>} />
+                <Route path="/my-task" element={<MainLayout><MyTask /></MainLayout>} />
             </Routes>
         </BrowserRouter>
     )

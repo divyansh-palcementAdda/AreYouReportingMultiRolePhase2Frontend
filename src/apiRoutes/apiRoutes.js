@@ -51,7 +51,8 @@ const apiAllRoutes = {
     getAllTaskTemplates:"/api/v1/task-templates",
     addTaskTemplate:"/api/v1/task-templates",
     updateTaskTemplate:"/api/v1/task-templates/{id}",
-    deleteTaskTemplate:"/api/v1/task-templates/{id}"
+    deleteTaskTemplate:"/api/v1/task-templates/{id}",
+    getTaskTemplateById:"/api/v1/task-templates/{id}"
   }
 
 }

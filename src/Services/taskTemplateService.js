@@ -81,3 +81,17 @@ export const deleteTaskTemplate = async (id) => {
     throw error;
   }
 };
+
+// ------------------------------------
+// Get Task Template By ID Service
+// Retrieves a single task template by ID
+// Path param: id (string, UUID)
+// ------------------------------------
+export const getTaskTemplateById = async (id) => {
+  try {
+    const response = await axiosInstance.get(apiAllRoutes.taskTemplate.getTaskTemplateById.replace("{id}", id));
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
