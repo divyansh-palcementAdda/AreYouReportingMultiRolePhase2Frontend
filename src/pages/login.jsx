@@ -5,9 +5,11 @@ import RuLogo from "../assets/pngImages/RU Logo.png"
 import { login } from '../Services/authService';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import { usePermissions } from '../context/PermissionContext';
 
 export default function Login() {
   const navigate = useNavigate()
+  const { fetchUserPermissions } = usePermissions()
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
@@ -30,6 +32,22 @@ export default function Login() {
       // Store refresh token in cookies
       if (response.data.refreshToken) {
         Cookies.set("refreshToken", response.data.refreshToken, { expires: 7 })
+      }
+      
+      // Store user data in cookies
+      if (response.data.user) {
+        Cookies.set("userData", JSON.stringify(response.data.user), { expires: 7 })
+      }
+      
+      // Store active role info in cookies
+      if (response.data.activeRoleId) {
+        Cookies.set("activeRoleId", response.data.activeRoleId, { expires: 7 })
+        Cookies.set("activeRoleName", response.data.activeRoleName, { expires: 7 })
+      }
+      
+      // Fetch permissions using activeRoleId from login response
+      if (response.data.activeRoleId) {
+        await fetchUserPermissions(response.data.activeRoleId)
       }
       
       // Show success toast
