@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
-import { Search } from "lucide-react"
+import { Search, Plus } from "lucide-react"
 import Table from "../../components/reusable/table"
 import DeleteModal from "../../components/reusable/deleteModel"
 import { getAllTasks, deleteTask } from "../../Services/taskService"
@@ -111,8 +111,9 @@ const MyTask = () => {
         </div>
         <button
           onClick={() => navigate("/create-task")}
-          className="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-md hover:bg-green-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-gradient-to-b from-white/0 to-green-800/10 text-[#2b7818] font-medium rounded-lg hover:bg-gray-100 transition-colors border border-gray-200"
         >
+          <Plus size={20} />
           Add Task
         </button>
       </div>

@@ -16,6 +16,7 @@ import TaskTemplateDetails from "../pages/Main/detailspages/taskTemplateDetails"
 import PendingApprove from "../pages/Main/pendingapprove"
 import AllWorks from "../pages/Main/allWorks"
 import MyTask from "../pages/Main/myTask"
+import PrivateRoute from "./privateRoute"
 
 export default function AppRoutes() {
     return (
@@ -23,21 +24,23 @@ export default function AppRoutes() {
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/admin-dashboard" element={<MainLayout><AdminDashboard /></MainLayout>} />
-                <Route path="/all-task" element={<MainLayout><AllTask /></MainLayout>} />
-                <Route path="/all-users" element={<MainLayout><AllUsers /></MainLayout>} />
-                <Route path="/all-departments" element={<MainLayout><AllDepartments /></MainLayout>} />
-                <Route path="/role-and-permission" element={<MainLayout><RoleandPermissions /></MainLayout>} />
-                <Route path="/all-task-template" element={<MainLayout><AllTaskTemplate /></MainLayout>} />
-                <Route path="/user-task-analitices" element={<MainLayout><UserTaskAnalitices /></MainLayout>} />
-                <Route path="/task-details/:id" element={<MainLayout><TaskDetails /></MainLayout>} />
-                <Route path="/user-details/:id" element={<MainLayout><UserDetails /></MainLayout>} />
-                <Route path="/department-details/:id" element={<MainLayout><DepartmentDetails /></MainLayout>} />
-                <Route path="/sub-department-details/:subDeptId" element={<MainLayout><SubDepartmentDetails /></MainLayout>} />
-                <Route path="/task-template-details/:id" element={<MainLayout><TaskTemplateDetails /></MainLayout>} />
-                <Route path="/pending-approve" element={<MainLayout><PendingApprove /></MainLayout>} />
-                <Route path="/all-works" element={<MainLayout><AllWorks /></MainLayout>} />
-                <Route path="/my-task" element={<MainLayout><MyTask /></MainLayout>} />
+                <Route element={<PrivateRoute />}>
+                    <Route path="/admin-dashboard" element={<MainLayout><AdminDashboard /></MainLayout>} />
+                    <Route path="/all-task" element={<MainLayout><AllTask /></MainLayout>} />
+                    <Route path="/all-users" element={<MainLayout><AllUsers /></MainLayout>} />
+                    <Route path="/all-departments" element={<MainLayout><AllDepartments /></MainLayout>} />
+                    <Route path="/role-and-permission" element={<MainLayout><RoleandPermissions /></MainLayout>} />
+                    <Route path="/all-task-template" element={<MainLayout><AllTaskTemplate /></MainLayout>} />
+                    <Route path="/user-task-analitices" element={<MainLayout><UserTaskAnalitices /></MainLayout>} />
+                    <Route path="/task-details/:id" element={<MainLayout><TaskDetails /></MainLayout>} />
+                    <Route path="/user-details/:id" element={<MainLayout><UserDetails /></MainLayout>} />
+                    <Route path="/department-details/:id" element={<MainLayout><DepartmentDetails /></MainLayout>} />
+                    <Route path="/sub-department-details/:subDeptId" element={<MainLayout><SubDepartmentDetails /></MainLayout>} />
+                    <Route path="/task-template-details/:id" element={<MainLayout><TaskTemplateDetails /></MainLayout>} />
+                    <Route path="/pending-approve" element={<MainLayout><PendingApprove /></MainLayout>} />
+                    <Route path="/all-works" element={<MainLayout><AllWorks /></MainLayout>} />
+                    <Route path="/my-task" element={<MainLayout><MyTask /></MainLayout>} />
+                </Route>
             </Routes>
         </BrowserRouter>
     )
