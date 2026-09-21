@@ -53,6 +53,13 @@ const apiAllRoutes = {
     updateTaskTemplate:"/api/v1/task-templates/{id}",
     deleteTaskTemplate:"/api/v1/task-templates/{id}",
     getTaskTemplateById:"/api/v1/task-templates/{id}"
+  },
+  subject:{
+    getAllSubjects:"/api/v1/subjects",
+    addSubject:"/api/v1/subjects",
+    updateSubject:"/api/v1/subjects/{id}",
+    deleteSubject:"/api/v1/subjects/{id}",
+    getSubjectById:"/api/v1/subjects/{id}"
   }
 
 }

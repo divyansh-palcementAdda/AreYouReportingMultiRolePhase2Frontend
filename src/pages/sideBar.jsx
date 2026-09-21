@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, ChevronRight, Menu, X, LayoutDashboard, ClipboardList, CheckCircle, Users, Building, Clock, Briefcase, BarChart3, Settings } from 'lucide-react';
+import { ChevronDown, ChevronRight, Menu, X, LayoutDashboard, ClipboardList, CheckCircle, Users, Building, Clock, Briefcase, BarChart3, Settings, Book } from 'lucide-react';
 
 const SideBar = ({ isOpen, setIsOpen }) => {
   const navigate = useNavigate();
@@ -14,6 +14,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
     { name: 'My Task', icon: CheckCircle , route: '/my-task'},
     { name: 'All User', icon: Users ,route: '/all-users'},
     { name: 'All Department', icon: Building,route: '/all-departments' },
+    { name: 'All Subjects', icon: Book, route: '/all-subjects' },
     { name:  'All Task Template' , icon: CheckCircle, route: '/all-task-template' },
     { name: 'Pending Approval', icon: Clock ,route: '/pending-approve' },
     { name: 'All Work', icon: Briefcase, route: '/all-works' },
