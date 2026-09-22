@@ -3,6 +3,7 @@ const apiAllRoutes = {
     login: "/api/v1/auth/login",
     // logout: "/api/auth/logout",
     refreshToken: "/api/v1/auth/refresh",
+    getMe: "/api/v1/auth/me",
   },
   task:{
     getAllTask :"/api/v1/tasks",

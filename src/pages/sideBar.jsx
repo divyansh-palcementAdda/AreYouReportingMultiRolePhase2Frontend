@@ -14,7 +14,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
     { name: 'My Task', icon: CheckCircle , route: '/my-task'},
     { name: 'All User', icon: Users ,route: '/all-users'},
     { name: 'All Department', icon: Building,route: '/all-departments' },
-    { name: 'All Subjects', icon: Book, route: '/all-subjects' },
+    // { name: 'All Subjects', icon: Book, route: '/all-subjects' },
     { name:  'All Task Template' , icon: CheckCircle, route: '/all-task-template' },
     { name: 'Pending Approval', icon: Clock ,route: '/pending-approve' },
     { name: 'All Work', icon: Briefcase, route: '/all-works' },
@@ -66,7 +66,7 @@ const SideBar = ({ isOpen, setIsOpen }) => {
         } lg:translate-x-0 w-64`}
       >
         {/* Logo */}
-        <div className=" border-b border-gray-200 mt-1">
+        <div className="  mt-1 p-2">
           <img
             src="/src/assets/pngImages/RU Logo.png"
             alt="Logo"

@@ -264,28 +264,39 @@ const AllDepartments = () => {
               <div
                 key={department.id}
                 onClick={() => handleDepartmentClick(department)}
-                className={`cursor-pointer p-3 rounded-xl border-2 transition-all hover:shadow-lg ${
+                className={`cursor-pointer rounded-xl border-2 transition-all hover:shadow-lg ${
                   selectedDepartment?.id === department.id
                     ? "border-green-500 bg-green-50"
                     : "border-gray-200 bg-white hover:border-green-300"
                 }`}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Building2 size={18} className="text-green-600" />
-                    <h3 className="font-semibold text-gray-800">{department.name}</h3>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={(e) => handleViewDepartment(department, e)}
-                      className="p-1.5 text-green-600 hover:bg-green-50 rounded transition-colors"
-                      title="View Department Details"
-                    >
-                      <Eye size={16} />
-                    </button>
-                    {selectedDepartment?.id === department.id && (
-                      <ChevronRight size={18} className="text-green-600" />
-                    )}
+                <div className="p-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex-shrink-0 bg-green-100 text-green-600 p-1.5 rounded-lg">
+                        <Building2 size={18} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-[10px] sm:text-xs font-semibold ${selectedDepartment?.id === department.id ? "text-green-700" : "text-blue-700"} uppercase tracking-wide`}>
+                          {department.name}
+                        </p>
+                        <p className={`text-base sm:text-lg font-bold ${selectedDepartment?.id === department.id ? "text-green-800" : "text-blue-800"} mt-0.5`}>
+                          {department.code || department.name}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={(e) => handleViewDepartment(department, e)}
+                        className="p-1.5 text-green-600 hover:bg-green-50 rounded transition-colors"
+                        title="View Department Details"
+                      >
+                        <Eye size={16} />
+                      </button>
+                      {selectedDepartment?.id === department.id && (
+                        <ChevronRight size={18} className="text-green-600" />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

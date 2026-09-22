@@ -4,7 +4,8 @@ import Table from "../../components/reusable/table"
 import { getAllTasks, deleteTask } from "../../Services/taskService"
 import AddAndEditTaskModal from "../../components/Models/Tasks/addAndeditTask"
 import DeleteModal from "../../components/reusable/deleteModel"
-import { Plus, Search, Circle, CheckCircle2 } from "lucide-react"
+import { Plus, Circle, CheckCircle2 } from "lucide-react"
+import { TotalTasksCard, CompletedCard, PendingCard, InProgressCard, OverdueCard, ApprovalsCard } from "../../components/cards/cardsDesign"
 
 const AllTask = () => {
   const navigate = useNavigate()
@@ -17,7 +18,8 @@ const AllTask = () => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [taskToDelete, setTaskToDelete] = useState(null)
   const [searchQuery, setSearchQuery] = useState("")
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("")
+  const [statusFilter, setStatusFilter] = useState("")
+  const [isSearching, setIsSearching] = useState(false)
 
   // Status badge rendering
   const renderStatusBadge = (status) => {
@@ -68,7 +70,15 @@ const AllTask = () => {
     { key: "assignee", label: "Assignee" },
   ]
 
-  const fetchTasks = async (page = 0, query = "") => {
+  const statusFilterOptions = [
+    { label: "Pending", value: "PENDING" },
+    { label: "In Progress", value: "IN PROGRESS" },
+    { label: "Review", value: "REVIEW" },
+    { label: "Completed", value: "COMPLETED" },
+    { label: "Overdue", value: "OVERDUE" },
+  ]
+
+  const fetchTasks = async (page = 0, query = "", filter = "") => {
     setLoading(true)
     try {
       const params = {
@@ -78,11 +88,15 @@ const AllTask = () => {
           sort: ["createdAt,desc"]
         }
       }
-      
+
       if (query && query.trim()) {
         params.search = query.trim()
       }
-      
+
+      if (filter && filter.trim()) {
+        params.status = filter.trim()
+      }
+
       const response = await getAllTasks(params)
       setTasks(response.data?.content || response.content || [])
       setPagination(response.data || {
@@ -96,27 +110,13 @@ const AllTask = () => {
       console.error("Error fetching tasks:", error)
     } finally {
       setLoading(false)
+      setIsSearching(false)
     }
   }
 
   useEffect(() => {
     fetchTasks(0)
   }, [])
-
-  // Debounce search query
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearchQuery(searchQuery)
-    }, 500)
-    
-    return () => clearTimeout(timer)
-  }, [searchQuery])
-
-  // Fetch tasks when debounced search query changes
-  useEffect(() => {
-    setCurrentPage(0)
-    fetchTasks(0, debouncedSearchQuery)
-  }, [debouncedSearchQuery])
 
   const handleAddTask = () => {
     setTaskToEdit(null)
@@ -139,7 +139,20 @@ const AllTask = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page)
-    fetchTasks(page, debouncedSearchQuery)
+    fetchTasks(page, searchQuery, statusFilter)
+  }
+
+  const handleSearch = (query) => {
+    setSearchQuery(query)
+    setCurrentPage(0)
+    setIsSearching(true)
+    fetchTasks(0, query, statusFilter)
+  }
+
+  const handleFilter = (filter) => {
+    setStatusFilter(filter)
+    setCurrentPage(0)
+    fetchTasks(0, searchQuery, filter)
   }
 
   const handleDeleteClick = (task) => {
@@ -175,34 +188,54 @@ const AllTask = () => {
         </button>
       </div>
 
-      {/* Search Input */}
-      <div className="mb-4">
-        <div className="relative w-96">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-          <input
-            type="text"
-            placeholder="Search tasks..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-          />
-        </div>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
+        <TotalTasksCard 
+          number={tasks.length} 
+          secondaryText="All tasks"
+        />
+        <CompletedCard 
+          number={tasks.filter(t => t.status === 'COMPLETED').length} 
+          secondaryText="Done"
+        />
+        <PendingCard 
+          number={tasks.filter(t => t.status === 'PENDING').length} 
+          secondaryText="Waiting"
+        />
+        <InProgressCard 
+          number={tasks.filter(t => t.status === 'IN PROGRESS').length} 
+          secondaryText="Active"
+        />
+        <OverdueCard 
+          number={tasks.filter(t => t.status === 'OVERDUE').length} 
+          secondaryText="Late"
+        />
+        <ApprovalsCard 
+          number={tasks.filter(t => t.status === 'REVIEW').length} 
+          secondaryText="Pending"
+        />
       </div>
 
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <Table 
-          columns={columns} 
+        <Table
+          columns={columns}
           data={tasks.map((task, index) => ({
             ...task,
             serialNo: currentPage * 10 + index + 1
-          }))} 
+          }))}
           onEdit={handleEditTask}
           onView={handleViewTask}
           onDelete={handleDeleteClick}
           pagination={pagination}
           onPageChange={handlePageChange}
+          enableSearch={true}
+          enableFilter={true}
+          onSearch={handleSearch}
+          onFilter={handleFilter}
+          filterOptions={statusFilterOptions}
+          isSearching={isSearching}
         />
       )}
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
-import { Search, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
 import Table from "../../components/reusable/table"
 import DeleteModal from "../../components/reusable/deleteModel"
 import { getAllTasks, deleteTask } from "../../Services/taskService"
@@ -65,8 +65,7 @@ const MyTask = () => {
     fetchMyTasks(page, searchTerm)
   }
 
-  const handleSearchChange = (e) => {
-    const value = e.target.value
+  const handleSearch = (value) => {
     setSearchTerm(value)
     setCurrentPage(0)
     fetchMyTasks(0, value)
@@ -118,19 +117,6 @@ const MyTask = () => {
         </button>
       </div>
 
-      <div className="mb-4">
-        <div className="relative w-64">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-          <input
-            type="text"
-            placeholder="Search tasks..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="w-full pl-10 pr-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-        </div>
-      </div>
-
       <div className="mt-6">
         {loading ? (
           <div className="text-center py-8 text-gray-600">Loading...</div>
@@ -142,6 +128,8 @@ const MyTask = () => {
             onPageChange={handlePageChange}
             onView={handleView}
             onDelete={handleDeleteClick}
+            enableSearch={true}
+            onSearch={handleSearch}
           />
         )}
       </div>
