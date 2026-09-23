@@ -68,7 +68,10 @@ const UserTaskAnalitices = () => {
 
   return (
     <div className="mt-2">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4">User Task Analytics</h1>
+      <div>
+        <h1 className="text-2xl font-bold text-gray-800 mb-1">User Task Analytics</h1>
+        <p className="text-sm text-gray-600 mb-4">View task analytics and user performance by department</p>
+      </div>
 
       {loading ? (
         <div className="text-center py-8 text-gray-600">Loading...</div>

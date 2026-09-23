@@ -235,7 +235,10 @@ const AllWorks = () => {
   return (
     <div className="mt-2">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">All Works</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">All Works</h1>
+          <p className="text-sm text-gray-600 mt-1">Manage departments and their sub-departments</p>
+        </div>
         <div className="flex items-center gap-2">
           <button
             onClick={handleAddDepartment}
@@ -296,9 +299,12 @@ const AllWorks = () => {
           {selectedDepartment && (
             <div className="mt-6">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold text-gray-800">
-                  Sub-departments for {selectedDepartment.name}
-                </h2>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-800">
+                    Sub-departments for {selectedDepartment.name}
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">Manage sub-departments within this department</p>
+                </div>
               </div>
               {subDepartmentsLoading ? (
                 <div className="text-center py-8 text-gray-600">Loading sub-departments...</div>

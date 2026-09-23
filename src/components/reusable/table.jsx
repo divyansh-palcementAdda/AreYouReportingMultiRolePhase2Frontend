@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Edit, Eye, Trash2, Search, Filter, X, ChevronUp, ChevronDown, Loader2 } from "lucide-react";
+import { Edit, Eye, Trash2, Search, Filter, X, ChevronUp, ChevronDown, Loader2, Check, XCircle } from "lucide-react";
 
 const ReusableTable = ({
   columns = [],
@@ -7,6 +7,8 @@ const ReusableTable = ({
   onEdit,
   onView,
   onDelete,
+  onApprove,
+  onReject,
   emptyMessage = "No data available",
   pagination = null,
   onPageChange = null,
@@ -255,14 +257,25 @@ const ReusableTable = ({
           {/* Table Header */}
           <thead>
             <tr>
-              {columns.map((column) => (
+              {columns.map((column, index) => (
                 <th
                   key={column.key}
                   className={`p-4 border-b border-gray-200 bg-green-700 text-white ${
                     column.key !== "sNo" ? "hover:bg-green-600 transition-colors" : ""
+                  } ${
+                    index < 3 ? "sticky" : ""
                   }`}
                   onClick={() => handleSort(column.key)}
-                  style={column.key !== "sNo" ? { cursor: 'pointer' } : {}}
+                  style={{
+                    ...(column.key !== "sNo" ? { cursor: 'pointer' } : {}),
+                    ...(index < 3 ? {
+                      position: 'sticky',
+                      left: index === 0 ? '0px' : index === 1 ? '80px' : '160px',
+                      zIndex: 20,
+                      minWidth: index === 2 ? '150px' : '80px',
+                      maxWidth: index === 2 ? '150px' : '80px'
+                    } : {})
+                  }}
                 >
                   <div className="flex items-center gap-2">
                     <p className="block font-sans text-sm font-semibold leading-none">
@@ -293,7 +306,7 @@ const ReusableTable = ({
               ))}
 
               {/* Action Header */}
-              {(onEdit || onView || onDelete) && (
+              {(onEdit || onView || onDelete || onApprove || onReject) && (
                 <th className="p-4 border-b border-gray-200 bg-green-700 text-white">
                   <p className="block font-sans text-sm font-semibold leading-none">
                     Action
@@ -311,10 +324,22 @@ const ReusableTable = ({
                   key={row.id ?? rowIndex}
                   className="hover:bg-gray-50 transition-colors"
                 >
-                  {columns.map((column) => (
+                  {columns.map((column, index) => (
                     <td
                       key={column.key}
-                      className="p-4 border-b border-gray-100"
+                      className={`p-4 border-b border-gray-100 ${
+                        index < 3 ? "sticky" : ""
+                      }`}
+                      style={{
+                        ...(index < 3 ? {
+                          position: 'sticky',
+                          left: index === 0 ? '0px' : index === 1 ? '80px' : '160px',
+                          zIndex: 10,
+                          minWidth: index === 2 ? '150px' : '80px',
+                          maxWidth: index === 2 ? '150px' : '80px',
+                          backgroundColor: 'white'
+                        } : {})
+                      }}
                     >
                       <p className="block font-sans text-sm font-normal leading-normal text-gray-700">
                         {column.render
@@ -325,7 +350,7 @@ const ReusableTable = ({
                   ))}
 
                   {/* Action */}
-                  {(onEdit || onView || onDelete) && (
+                  {(onEdit || onView || onDelete || onApprove || onReject) && (
                     <td className="p-4 border-b border-gray-100">
                       <div className="flex items-center gap-2">
                         {onView && (
@@ -348,6 +373,26 @@ const ReusableTable = ({
                             <Edit size={18} />
                           </button>
                         )}
+                        {onApprove && (
+                          <button
+                            onClick={() => onApprove(row)}
+                            className="p-2 text-green-600 hover:bg-green-50 rounded transition-colors"
+                            title="Approve"
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <Check size={18} />
+                          </button>
+                        )}
+                        {onReject && (
+                          <button
+                            onClick={() => onReject(row)}
+                            className="p-2 text-red-600 hover:bg-red-50 rounded transition-colors"
+                            title="Reject"
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <XCircle size={18} />
+                          </button>
+                        )}
                         {onDelete && (
                           <button
                             onClick={() => onDelete(row)}
@@ -366,7 +411,7 @@ const ReusableTable = ({
             ) : (
               <tr>
                 <td
-                  colSpan={columns.length + ((onEdit || onView || onDelete) ? 1 : 0)}
+                  colSpan={columns.length + ((onEdit || onView || onDelete || onApprove || onReject) ? 1 : 0)}
                   className="p-8 text-center text-sm text-gray-500 bg-gradient-to-b from-white/0 to-green-800/5"
                 >
                   {emptyMessage}

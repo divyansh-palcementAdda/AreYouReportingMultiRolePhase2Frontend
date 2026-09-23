@@ -63,7 +63,10 @@ const UserDetails = () => {
           <ArrowLeft size={20} />
           Back
         </button>
-        <h1 className="text-2xl font-bold text-gray-800">User Details</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">User Details</h1>
+          <p className="text-sm text-gray-600 mt-1">View user information and role assignments</p>
+        </div>
       </div>
 
       {/* Main Content */}

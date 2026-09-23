@@ -101,7 +101,10 @@ const TaskDetails = () => {
           <ArrowLeft size={20} />
           Back
         </button>
-        <h1 className="text-2xl font-bold text-gray-800">Task Details</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">Task Details</h1>
+          <p className="text-sm text-gray-600 mt-1">View task information and track progress</p>
+        </div>
       </div>
 
       {/* Main Content */}

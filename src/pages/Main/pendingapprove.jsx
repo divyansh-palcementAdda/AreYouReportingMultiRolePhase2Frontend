@@ -131,10 +131,23 @@ const PendingApprove = () => {
     setDeleteModal({ isOpen: false, task: null })
   }
 
+  const handleApprove = (task) => {
+    console.log("Approve task:", task)
+    // API implementation will be added later
+  }
+
+  const handleReject = (task) => {
+    console.log("Reject task:", task)
+    // API implementation will be added later
+  }
+
   return (
     <div className="mt-2">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-800">Pending Approvals</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">Pending Approvals</h1>
+          <p className="text-sm text-gray-600 mt-1">Review and manage tasks awaiting approval</p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -211,6 +224,8 @@ const PendingApprove = () => {
               onPageChange={handlePageChange}
               onView={handleView}
               onDelete={handleDeleteClick}
+              onApprove={handleApprove}
+              onReject={handleReject}
             />
           )}
         </div>

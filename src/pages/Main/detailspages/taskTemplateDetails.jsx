@@ -75,7 +75,10 @@ const TaskTemplateDetails = () => {
           <ArrowLeft size={20} />
           Back
         </button>
-        <h1 className="text-2xl font-bold text-gray-800">Task Template Details</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">Task Template Details</h1>
+          <p className="text-sm text-gray-600 mt-1">View task template configuration and settings</p>
+        </div>
       </div>
 
       {/* Main Content */}

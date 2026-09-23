@@ -183,7 +183,10 @@ const rolesAndPermissions = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Roles and Permissions</h1>
+      <div>
+        <h1 className="text-2xl font-bold text-gray-800 mb-1">Roles and Permissions</h1>
+        <p className="text-sm text-gray-600 mb-6">Manage user roles and their access permissions</p>
+      </div>
       
       <div className="flex gap-6">
         {/* Roles Section - Left Side */}

@@ -172,7 +172,10 @@ const Subject = () => {
   return (
     <div className="mt-2">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-gray-800">All Subjects</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">All Subjects</h1>
+          <p className="text-sm text-gray-600 mt-1">Manage subjects and their details</p>
+        </div>
         <button
           onClick={handleAddSubject}
           className="flex items-center gap-2 px-4 py-2 bg-gradient-to-b from-white/0 to-green-800/10 text-[#2b7818] font-medium rounded-lg hover:bg-gray-100 transition-colors border border-gray-200"
