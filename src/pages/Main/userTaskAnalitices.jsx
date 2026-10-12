@@ -4,23 +4,46 @@ import { getUsersByDepartment } from "../../Services/userTaskAnalitices"
 import Table from "../../components/reusable/table"
 import { Building2, ChevronRight } from "lucide-react"
 
+const ITEMS_PER_PAGE = 10
+
 const UserTaskAnalitices = () => {
   const [departments, setDepartments] = useState([])
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
   const [usersLoading, setUsersLoading] = useState(false)
   const [selectedDepartment, setSelectedDepartment] = useState(null)
+  const [currentPage, setCurrentPage] = useState(0)
+
+  // Client-side pagination
+  const totalPages = Math.ceil(users.length / ITEMS_PER_PAGE)
+  const startIndex = currentPage * ITEMS_PER_PAGE
+  const endIndex = startIndex + ITEMS_PER_PAGE
+  const paginatedUsers = users.slice(startIndex, endIndex)
+
+  const pagination = {
+    totalElements: users.length,
+    pageNumber: currentPage,
+    pageSize: ITEMS_PER_PAGE,
+    totalPages: totalPages,
+    last: currentPage >= totalPages - 1,
+  }
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 0 && newPage < totalPages) {
+      setCurrentPage(newPage)
+    }
+  }
 
   const userColumns = [
-    { 
-      key: "sno", 
-      label: "S.No", 
-      render: (value, row, index) => index + 1 
+    {
+      key: "sno",
+      label: "S.No",
+      render: (value, row, index) => currentPage * ITEMS_PER_PAGE + index + 1,
     },
     { key: "fullName", label: "Full Name" },
     { key: "username", label: "Username" },
     { key: "email", label: "Email" },
-    { key: "phoneNumber", label: "Phone Number" }
+    { key: "phoneNumber", label: "Phone Number" },
   ]
 
   const fetchDepartments = async () => {
@@ -38,6 +61,7 @@ const UserTaskAnalitices = () => {
 
   const fetchUsersByDepartment = async (departmentId) => {
     setUsersLoading(true)
+    setCurrentPage(0)
     try {
       const response = await getUsersByDepartment(departmentId)
       const userData = response.data || []
@@ -109,10 +133,12 @@ const UserTaskAnalitices = () => {
               {usersLoading ? (
                 <div className="text-center py-8 text-gray-600">Loading users...</div>
               ) : (
-                <Table 
-                  columns={userColumns} 
-                  data={users}
+                <Table
+                  columns={userColumns}
+                  data={paginatedUsers}
                   emptyMessage="No users found in this department"
+                  pagination={pagination}
+                  onPageChange={handlePageChange}
                 />
               )}
             </div>
